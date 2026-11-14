@@ -1,32 +1,69 @@
 import { unsplash as u } from '../utils/unsplash';
 
-const A = '1540420773420-3366772f4999';
-const B = '1512621776951-a57141f2eefd';
-const C = '1505253758473-96b3d5ebcd96';
-const D = '1550989460-0adf9ea622e2';
-const E = '1546069901-ba9599a7e63c';
-const F = '1592417817098-8f3d6910985b';
-const G = '1540189549336-e6e99c3679fe';
-const H = '1576045057995-568f588f82fb';
-const I = '1594282486552-05b4d80fbb9f';
-const J = '1508615039623-a25605d2b022';
+// All photos below are free-to-use under the Unsplash License.
+// IDs are the `photo-<id>` part of the images.unsplash.com URL.
+export const PHOTO = {
+  // Bowls
+  chaatBowl: '1505253716362-afaea1d3d1af', // salad in a white ceramic bowl (Taylor Kiser)
+  gonguraBowl: '1584799650072-ee2c8f73b811', // fresh salad in a glass bowl (Yu Hosoi)
+  proteinBowl: '1599020792689-9fde458e7e17', // buddha bowl with egg, lentils, greens (Frames For Your Heart)
+  detoxBowl: '1593629718347-283811841101', // microgreens in a white ceramic bowl (Quin Engle)
+  chickpeaBowl: '1542354255-839e272e3408', // chickpea & greens buddha bowl (Charlotte Karlsen)
+  beansBowl: '1617175093903-1298b4985fcd', // ceramic bowl of beans & nuts (Hayley Maxwell)
 
-export const PHOTO = { A, B, C, D, E, F, G, H, I, J };
+  // Microgreens & sprouts
+  trays: '1648128774225-b7cf04eb94c6', // trays of growing microgreens (Artelle Creative)
+  greenPile: '1647613233075-e0d5546b0f22', // pile of fresh green sprouts (Artelle Creative)
+  gonguraLeaves: '1647613233077-c323b019968b', // close-up of green microgreen leaves (Artelle Creative)
+  methi: '1616736672442-247f3c76ee9a', // tender green shoots (Deborah Altenbeck)
+  sproutsRow: '1462690417829-5b41247f6b0e', // row of bean sprouts (Christian Joudrey)
+  amaranth: '1768860371058-b782291437e2', // microgreens with purple accents (SarahCreates)
+  mustard: '1648128774137-5aecd8c061cf', // dew-covered microgreens (Artelle Creative)
+  woodenContainer: '1633133451255-5e7b18ba768a', // microgreens in a wooden container (Anirudh Janga)
+  plasticTray: '1647613233056-fc9918256a8d', // microgreens tray on wooden board (Artelle Creative)
+  greenOnWhite: '1593850684282-82029c1ac6be', // microgreens on white background (Devi Yahya)
+  leavesOnWhite: '1622463214111-b192a53371d2', // green leaves on white surface (Petr)
 
-export const PRODUCT_GALLERY_IDS = {
-  'bowl-hyderabad-chaat': [A, B, C],
-  'bowl-gongura-power': [B, D, A],
-  'bowl-athlete-recovery': [E, A, F],
-  'bowl-ayur-detox': [G, H, I],
-  'gongura-shoots': [D, I, B],
-  'kasuri-methi': [F, D, J],
-  'desi-moong-chana': [C, A, E],
-  'koyagura-amaranth': [I, D, G],
-  'desi-avalu-mustard': [J, F, H],
-  'godhuma-wheatgrass': [H, G, D]
+  // Sprouted legumes
+  mungSproutsBowl: '1785826799626-5d711dc8763a', // bowl of sprouted mung beans on white
+  mungSproutsClose: '1758701925687-1449ab265c2e', // sprouted mung beans close-up
+  mungBeans: '1577110563838-e408b455c91d', // mung beans
+
+  // Wheatgrass
+  wheatgrassRoots: '1757557768362-89bc57635dbd', // wheatgrass with visible roots (David Clode)
+  wheatgrassPot: '1607718037487-5625a5ff5abf', // wheatgrass in a pot (Jesson Mata)
+  wheatgrassClose: '1654659932057-5163eb80289d', // close-up of wheatgrass blades (Chandan Chaurasia)
+
+  // Legacy aliases, kept so any other file importing PHOTO.A–J keeps working
+  A: '1648128774225-b7cf04eb94c6',
+  B: '1505253716362-afaea1d3d1af',
+  C: '1462690417829-5b41247f6b0e',
+  D: '1647613233075-e0d5546b0f22',
+  E: '1599020792689-9fde458e7e17',
+  F: '1616736672442-247f3c76ee9a',
+  G: '1593629718347-283811841101',
+  H: '1607718037487-5625a5ff5abf',
+  I: '1768860371058-b782291437e2',
+  J: '1648128774137-5aecd8c061cf'
 };
 
-export const DEFAULT_GALLERY_IDS = [A, B, D];
+const P = PHOTO;
+
+// First image in each list is the product's main image.
+export const PRODUCT_GALLERY_IDS = {
+  'bowl-hyderabad-chaat': [P.mungSproutsBowl, P.chaatBowl, P.chickpeaBowl],
+  'bowl-gongura-power': [P.gonguraBowl, P.mungSproutsClose, P.gonguraLeaves],
+  'bowl-athlete-recovery': [P.proteinBowl, P.mungSproutsBowl, P.mustard],
+  'bowl-ayur-detox': [P.detoxBowl, P.mungSproutsClose, P.wheatgrassPot],
+  'gongura-shoots': [P.gonguraLeaves, P.greenPile, P.trays],
+  'kasuri-methi': [P.methi, P.greenOnWhite, P.trays],
+  'desi-moong-chana': [P.mungSproutsClose, P.mungSproutsBowl, P.sproutsRow],
+  'koyagura-amaranth': [P.amaranth, P.leavesOnWhite, P.trays],
+  'desi-avalu-mustard': [P.mustard, P.woodenContainer, P.plasticTray],
+  'godhuma-wheatgrass': [P.wheatgrassRoots, P.wheatgrassPot, P.wheatgrassClose]
+};
+
+export const DEFAULT_GALLERY_IDS = [P.trays, P.greenPile, P.chaatBowl];
 
 const gallery = (sku) => PRODUCT_GALLERY_IDS[sku].map((id) => u(id));
 
@@ -35,6 +72,7 @@ const product = (sku, fields) => ({
   _id: sku,
   sku,
   image: gallery(sku)[0],
+  images: gallery(sku),
   ...fields
 });
 
@@ -172,12 +210,12 @@ export const FALLBACK_PRODUCTS = [
 ];
 
 export const POPULAR_CATEGORIES = [
-  { id: 'all', label: 'All Harvest', count: '10 Items', bg: 'bg-[#E9F5EC]', img: u(A, 200) },
-  { id: 'bowls', label: 'Sprout Bowls', count: '4 Bowls', bg: 'bg-[#FCECE3]', img: u(B, 200) },
-  { id: 'greens', label: 'Microgreens', count: '6 Varieties', bg: 'bg-[#E6F1F5]', img: u(D, 200) },
-  { id: 'protein', label: 'High Protein', count: '14g–22g Protein', bg: 'bg-[#F5E8EC]', img: u(E, 200) },
-  { id: 'detox', label: 'Detox & Iron', count: 'Chlorophyll Rich', bg: 'bg-[#EFEAF8]', img: u(H, 200) },
-  { id: 'sprouts', label: 'Living Trays', count: 'Root-Intact', bg: 'bg-[#F9F3DF]', img: u(C, 200) }
+  { id: 'all', label: 'All Harvest', count: '10 Items', bg: 'bg-[#E9F5EC]', img: u(P.trays, 200) },
+  { id: 'bowls', label: 'Sprout Bowls', count: '4 Bowls', bg: 'bg-[#FCECE3]', img: u(P.chaatBowl, 200) },
+  { id: 'greens', label: 'Microgreens', count: '6 Varieties', bg: 'bg-[#E6F1F5]', img: u(P.greenPile, 200) },
+  { id: 'protein', label: 'High Protein', count: '14g–22g Protein', bg: 'bg-[#F5E8EC]', img: u(P.proteinBowl, 200) },
+  { id: 'detox', label: 'Detox & Iron', count: 'Chlorophyll Rich', bg: 'bg-[#EFEAF8]', img: u(P.wheatgrassPot, 200) },
+  { id: 'sprouts', label: 'Living Trays', count: 'Root-Intact', bg: 'bg-[#F9F3DF]', img: u(P.mungSproutsBowl, 200) }
 ];
 
 export const BEST_SELLER_PILLS = [
@@ -218,7 +256,7 @@ export const HEALTH_GOALS = {
 export const GROWTH_STAGES = [
   {
     tab: 'Day 1-2 (Awakening)',
-    image: u(C, 1000),
+    image: u(P.beansBowl, 1000),
     alt: 'Seed Awakening',
     title: 'Stage 1: Seed Imbibition & Phytic Acid Breakdown',
     body: 'Seeds are washed in purified RO water. Water penetrates the outer seed coat, inactivating digestive inhibitors (phytates) and releasing active amylases and proteases.',
@@ -226,7 +264,7 @@ export const GROWTH_STAGES = [
   },
   {
     tab: 'Day 3-5 (Living Sprout)',
-    image: u(A, 1000),
+    image: u(P.mungSproutsClose, 1000),
     alt: 'Living Sprout Stage',
     title: 'Stage 2: The Living Sprout Stage (Pacha Pesalu & Chana)',
     body: 'Consumed whole including tender root tails and germinated seed hulls. Offers peak concentration of bioavailable amino acids and living digestive enzymes.',
@@ -234,7 +272,7 @@ export const GROWTH_STAGES = [
   },
   {
     tab: 'Day 7-10 (Microgreen)',
-    image: u(D, 1000),
+    image: u(P.trays, 1000),
     alt: 'Microgreen Photosynthesis',
     title: 'Stage 3: Microgreen Photosynthesis (Methi & Gongura)',
     body: 'Cotyledon seed leaves unfold under full-spectrum indoor agricultural LEDs. Chlorophyll and carotenoid biosynthesis surge to peak levels.',
@@ -242,7 +280,7 @@ export const GROWTH_STAGES = [
   },
   {
     tab: 'Day 12-14 (True Leaf)',
-    image: u(I, 1000),
+    image: u(P.amaranth, 1000),
     alt: 'True Leaf Maturity',
     title: 'Stage 4: True Leaf Maturity (Avalu & Koyagura)',
     body: 'Complex aromatic glucosinolates and crimson betalain pigments emerge, creating bold culinary flavor and strong cellular defense compounds.',
