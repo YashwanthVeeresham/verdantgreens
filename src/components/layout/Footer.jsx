@@ -1,6 +1,7 @@
 import React from 'react';
 import { Leaf } from 'lucide-react';
 import { useStore } from '../../context/StoreContext';
+import logo from "../../../public/logo.svg";
 
 function LinkList({ title, links }) {
   return (
@@ -28,9 +29,9 @@ export default function Footer() {
         <div className="md:col-span-5 space-y-3">
           <div className="flex items-center space-x-2">
             <span className="w-7 h-7 rounded-lg bg-[#153B2B] text-[#98E59E] flex items-center justify-center">
-              <Leaf size={15} />
+      <img src={logo} alt="Sideshwara Greens Logo" className="w-full h-full object-contain" />
             </span>
-            <span className="font-serif text-xl font-bold text-[#153B2B]">VerdantMart</span>
+            <span className="font-serif text-xl font-bold text-[#153B2B]">VerdantGreens</span>
           </div>
           <p className="text-xs text-[#687A6D] max-w-sm leading-relaxed">
             Fresh, 5:00 AM morning-harvested microgreens, germinated sprout bowls, and living wheatgrass trays

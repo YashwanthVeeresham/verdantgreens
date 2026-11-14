@@ -3,6 +3,7 @@ import { Leaf, ShoppingBag, MapPin, Package, Search, X, User, Shield, LogIn, Log
 import { useStore } from '../../context/StoreContext';
 import { useClickOutside } from '../../hooks/useClickOutside';
 import { LOCALITIES, TABS } from '../../constants/config';
+import logo from "../../../public/logo.svg";
 
 function ProfileMenu() {
   const { profile, orders, setActiveTab, setIsLoginOpen, signOut } = useStore();
@@ -132,10 +133,10 @@ export default function Header() {
 
         <div onClick={() => setActiveTab('shop')} className="flex items-center space-x-2 cursor-pointer select-none">
           <span className="w-7 h-7 rounded-lg bg-[#153B2B] text-[#98E59E] flex items-center justify-center">
-            <Leaf size={15} />
+          <img src={logo} alt="Sideshwara Greens Logo" className="w-full h-full object-contain" />
           </span>
           <span className="font-serif text-xl sm:text-2xl font-bold tracking-tight text-[#153B2B]">
-            Verdant<span className="text-[#2C6E49]">Mart</span>
+            Verdant<span className="text-[#2C6E49]">Greens</span>
           </span>
         </div>
 
