@@ -60,7 +60,7 @@ export default function Footer() {
         <div className="md:col-span-3 space-y-2">
           <p className="font-bold text-[#152A1B]">Hyderabad Delivery Hubs</p>
           <p className="leading-relaxed">Gachibowli • Hitec City • Jubilee Hills • Banjara Hills • Madhapur • Kondapur</p>
-          <p className="font-semibold text-[#2C6E49] pt-1">care@verdantmart.in</p>
+          <p className="font-semibold text-[#2C6E49] pt-1">care@verdantgreens.in</p>
         </div>
       </div>
       <div className="border-t border-[#F0F4F1] py-4 text-center text-[11px] text-[#8A9B8E]">
