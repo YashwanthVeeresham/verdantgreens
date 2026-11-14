@@ -64,7 +64,7 @@ export default function Footer() {
         </div>
       </div>
       <div className="border-t border-[#F0F4F1] py-4 text-center text-[11px] text-[#8A9B8E]">
-        © {new Date().getFullYear()} VerdantMart Hyderabad. 100% Clean Hydro-Organic Harvest.
+        © {new Date().getFullYear()} VerdantGreens. 100% Clean Hydro-Organic Harvest.
       </div>
     </footer>
   );
