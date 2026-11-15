@@ -203,7 +203,6 @@ export default function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
 
-  // Header condenses slightly and gains a stronger shadow once the page scrolls
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 8);
     onScroll();
@@ -211,7 +210,6 @@ export default function Header() {
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
-  // Close panels with Escape
   useEffect(() => {
     if (!menuOpen && !searchOpen) return undefined;
     const onKey = (e) => {
@@ -238,7 +236,6 @@ export default function Header() {
 
   return (
     <>
-      {/* Delivery promise strip (scrolls away; the pill below stays fixed) */}
       <div className="bg-[#0F2D20] px-4 py-1.5 text-center text-[11px] font-medium text-white/85">
         <span className="inline-flex items-center gap-2">
           <span className="relative flex h-1.5 w-1.5">
@@ -251,7 +248,6 @@ export default function Header() {
 
       <header className="pointer-events-none sticky top-0 z-40 px-3 pt-3 sm:px-6">
         <div className="relative mx-auto max-w-7xl">
-          {/* Floating pill: [menu / tabs] [logo centred] [actions] */}
           <div
             className={`pointer-events-auto grid grid-cols-[auto_1fr_auto] items-center gap-2 rounded-full border border-[#E2EAE4] bg-white/85 px-2.5 backdrop-blur-xl transition-all duration-300 sm:px-3 xl:grid-cols-[1fr_auto_1fr] ${
               scrolled
@@ -259,7 +255,7 @@ export default function Header() {
                 : 'h-16 shadow-[0_4px_16px_-8px_rgba(21,59,43,0.2)]'
             }`}
           >
-            {/* Left: menu button (below xl) / tabs (xl and up) */}
+            {/* Left: menu button / tabs */}
             <div className="flex items-center justify-start">
               <button
                 type="button"
@@ -303,13 +299,13 @@ export default function Header() {
             <button
               type="button"
               onClick={() => goTab('shop')}
-              aria-label="Verdant Greens home"
+              aria-label="Sideshwara Greens home"
               className="flex select-none items-center justify-center gap-2 justify-self-center rounded-full py-1 pl-1 pr-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#2C6E49]"
             >
               <span className="flex h-9 w-9 shrink-0 items-center justify-center overflow-hidden rounded-full bg-[#153B2B] p-1.5 text-[#98E59E]">
                 <img src={logo} alt="" className="h-full w-full object-contain" />
               </span>
-              <span className="whitespace-nowrap font-serif text-base font-bold tracking-tight text-[#153B2B] sm:text-xl">
+              <span className="whitespace-nowrap font-serif text-base font-bold tracking-tight text-[#152A1B] sm:text-xl">
                 Verdant<span className="text-[#2C6E49]">Greens</span>
               </span>
             </button>
@@ -351,16 +347,16 @@ export default function Header() {
                 </span>
               </button>
 
+              {/* Cart Button resized to h-8 w-8 matching the user avatar circle */}
               <button
                 type="button"
                 onClick={() => setIsCartOpen(true)}
                 aria-label={`Open cart${totals.count > 0 ? `, ${totals.count} items` : ''}`}
-                className="relative flex h-10 shrink-0 items-center gap-2 rounded-full bg-[#153B2B] px-3 text-xs font-bold text-white transition hover:bg-[#0E291D] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#2C6E49] focus-visible:ring-offset-2 sm:px-4"
+                className="relative flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[#153B2B] text-white transition hover:bg-[#0E291D] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#2C6E49]"
               >
-                <ShoppingBag size={17} className="text-[#98E59E]" aria-hidden="true" />
-                <span className="hidden sm:inline">Cart</span>
+                <ShoppingBag size={15} className="text-[#98E59E]" aria-hidden="true" />
                 {totals.count > 0 && (
-                  <span className="absolute -right-1 -top-1 flex h-[18px] min-w-[18px] items-center justify-center rounded-full bg-[#98E59E] px-1 text-[10px] font-bold text-[#0F2D20] ring-2 ring-white sm:static sm:ring-0">
+                  <span className="absolute -right-1 -top-1 flex h-4 min-w-[16px] items-center justify-center rounded-full bg-[#98E59E] px-1 text-[9px] font-bold text-[#0F2D20] ring-2 ring-white">
                     {totals.count}
                   </span>
                 )}
@@ -369,6 +365,7 @@ export default function Header() {
               <ProfileMenu />
             </div>
           </div>
+
           {/* Search panel */}
           {searchOpen && (
             <div className="pointer-events-auto absolute inset-x-0 top-full mt-2 rounded-3xl border border-[#E2EAE4] bg-white p-3 shadow-[0_24px_60px_-16px_rgba(21,59,43,0.35)]">
