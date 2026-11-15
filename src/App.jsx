@@ -1,5 +1,5 @@
-import React from 'react';
-import { AlertCircle } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { AlertCircle, ArrowUp } from 'lucide-react';
 import { StoreProvider, useStore } from './context/StoreContext';
 import Header from './components/layout/Header';
 import Footer from './components/layout/Footer';
@@ -24,6 +24,32 @@ const PAGES = {
   profile: ProfilePage,
   about: AboutUs
 };
+
+function ScrollToTopButton() {
+  const [visible, setVisible] = useState(false);
+
+  useEffect(() => {
+    const toggleVisibility = () => {
+      setVisible(window.scrollY > 300);
+    };
+
+    window.addEventListener('scroll', toggleVisibility, { passive: true });
+    return () => window.removeEventListener('scroll', toggleVisibility);
+  }, []);
+
+  if (!visible) return null;
+
+  return (
+    <button
+      type="button"
+      onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+      aria-label="Scroll to top"
+      className="fixed bottom-6 right-6 z-50 flex h-12 w-12 items-center justify-center rounded-full bg-[#153B2B] text-[#98E59E] shadow-xl border border-white/20 transition-all duration-300 hover:scale-110 hover:bg-[#0E291D] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#2C6E49]"
+    >
+      <ArrowUp size={20} aria-hidden="true" />
+    </button>
+  );
+}
 
 function AppShell() {
   const { activeTab, apiError } = useStore();
@@ -60,6 +86,7 @@ function AppShell() {
       <LoginModal />
       <CartDrawer />
       <CheckoutSuccessModal />
+      <ScrollToTopButton />
     </div>
   );
 }
