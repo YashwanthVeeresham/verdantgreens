@@ -1,13 +1,24 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Sparkles, ArrowRight, Plus } from 'lucide-react';
 import { useStore } from '../../context/StoreContext';
 import { getProductImage } from '../../utils/images';
 import { unsplash } from '../../utils/unsplash';
 import { PHOTO } from '../../data/products';
 
+const HERO_IMAGES = [PHOTO.A, PHOTO.B, PHOTO.C, PHOTO.D, PHOTO.E];
+
 export default function HeroBanner({ onShopNow }) {
   const { products, selectedLocality, setSelectedProduct, addToCart } = useStore();
   const spotlight = products.find((p) => (p.sku || p.id) === 'bowl-gongura-power') || products[0];
+
+  const [currentIndex, setCurrentIndex] = useState(0);
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrentIndex((prevIndex) => (prevIndex + 1) % HERO_IMAGES.length);
+    }, 3500);
+    return () => clearInterval(timer);
+  }, []);
 
   return (
     <section className="relative rounded-3xl overflow-hidden bg-gradient-to-br from-[#2B6E52] via-[#4A9173] to-[#87C1A7] text-white px-6 sm:px-12 pt-7 pb-9 sm:py-10 shadow-lg">
@@ -19,7 +30,7 @@ export default function HeroBanner({ onShopNow }) {
           <span>Same-Day Morning Harvest • {selectedLocality}</span>
         </div>
         <h1 className="font-serif text-4xl sm:text-6xl lg:text-7xl font-bold tracking-tight text-[#B8F5B1] drop-shadow-sm">
-          Verdant <span className="text-white">Greens</span>
+          Sideshwara <span className="text-white">Greens</span>
         </h1>
       </div>
 
@@ -41,8 +52,29 @@ export default function HeroBanner({ onShopNow }) {
         </div>
 
         <div className="md:col-span-4 flex justify-center">
-          <div className="relative w-48 h-48 sm:w-60 sm:h-60 rounded-full p-2 bg-white/15 backdrop-blur-xs border border-white/25 shadow-2xl">
-            <img src={unsplash(PHOTO.A, 700)} alt="Fresh Sprouts Harvest" className="w-full h-full object-cover rounded-full" />
+          <div className="relative w-48 h-48 sm:w-60 sm:h-60 rounded-full p-2 bg-white/15 backdrop-blur-xs border border-white/25 shadow-2xl overflow-hidden">
+            {HERO_IMAGES.map((photoId, idx) => (
+              <img
+                key={photoId}
+                src={unsplash(photoId, 700)}
+                alt="Fresh Sprouts Harvest"
+                className={`absolute inset-0 w-full h-full object-cover rounded-full transition-opacity duration-1000 ${
+                  idx === currentIndex ? 'opacity-100 scale-100' : 'opacity-0 scale-105'
+                }`}
+              />
+            ))}
+            <div className="absolute bottom-3 left-0 right-0 flex justify-center space-x-1.5 z-20">
+              {HERO_IMAGES.map((_, idx) => (
+                <button
+                  key={idx}
+                  onClick={() => setCurrentIndex(idx)}
+                  className={`w-2 h-2 rounded-full transition-all ${
+                    idx === currentIndex ? 'bg-white w-5' : 'bg-white/50'
+                  }`}
+                  aria-label={`Go to slide ${idx + 1}`}
+                />
+              ))}
+            </div>
           </div>
         </div>
 
