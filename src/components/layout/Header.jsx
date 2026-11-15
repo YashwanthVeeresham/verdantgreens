@@ -310,8 +310,8 @@ export default function Header() {
               </span>
             </button>
 
-            {/* Right: search, hub, orders, cart, profile */}
-            <div className="flex items-center justify-end gap-1.5 sm:gap-2">
+            {/* Right: search, hub, orders, cart, profile (Reduced gap to gap-1) */}
+            <div className="flex items-center justify-end gap-1">
               <button
                 type="button"
                 onClick={() => {
