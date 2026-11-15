@@ -30,7 +30,7 @@ export default function HeroBanner({ onShopNow }) {
           <span>Same-Day Morning Harvest • {selectedLocality}</span>
         </div>
         <h1 className="font-serif text-4xl sm:text-6xl lg:text-7xl font-bold tracking-tight text-[#B8F5B1] drop-shadow-sm">
-          Sideshwara <span className="text-white">Greens</span>
+           Verdant <span className="text-white">Greens</span>
         </h1>
       </div>
 
