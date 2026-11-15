@@ -40,9 +40,9 @@ function ProfileMenu() {
         aria-haspopup="menu"
         aria-expanded={open}
         aria-label="Account menu"
-        className="flex h-11 items-center gap-1.5 rounded-full border border-[#DCE6DF] bg-white p-1 text-[#152A1B] transition hover:border-[#2C6E49]/50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#2C6E49] xl:pr-3"
+        className="flex h-10 sm:h-11 items-center gap-1.5 rounded-full border border-[#DCE6DF] bg-white p-1 text-[#152A1B] transition hover:border-[#2C6E49]/50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#2C6E49] xl:pr-3"
       >
-        <span className="flex h-9 w-9 items-center justify-center rounded-full bg-[#153B2B] text-sm font-bold text-[#98E59E]">
+        <span className="flex h-8 w-8 sm:h-9 sm:w-9 items-center justify-center rounded-full bg-[#153B2B] text-xs sm:text-sm font-bold text-[#98E59E]">
           {initial}
         </span>
         <span className="hidden max-w-[80px] truncate text-xs font-semibold xl:inline">{name.split(' ')[0]}</span>
@@ -135,7 +135,7 @@ function ProfileMenu() {
 function HubSelect({ value, onChange, className = '' }) {
   return (
     <label
-      className={`flex h-11 items-center gap-1.5 rounded-full bg-[#EAF5EC] px-3 text-sm font-semibold text-[#153B2B] transition focus-within:ring-2 focus-within:ring-[#2C6E49] ${className}`}
+      className={`flex h-10 sm:h-11 items-center gap-1.5 rounded-full bg-[#EAF5EC] px-3 text-xs sm:text-sm font-semibold text-[#153B2B] transition focus-within:ring-2 focus-within:ring-[#2C6E49] ${className}`}
     >
       <MapPin size={14} className="shrink-0 text-[#2C6E49]" aria-hidden="true" />
       <span className="sr-only">Delivery hub</span>
@@ -143,7 +143,7 @@ function HubSelect({ value, onChange, className = '' }) {
         value={value}
         onChange={onChange}
         aria-label="Delivery hub"
-        className="max-w-[130px] cursor-pointer truncate bg-transparent font-bold focus:outline-none"
+        className="max-w-[110px] sm:max-w-[130px] cursor-pointer truncate bg-transparent font-bold focus:outline-none"
       >
         {LOCALITIES.map((loc) => (
           <option key={loc} value={loc}>
@@ -203,7 +203,6 @@ export default function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
 
-  // Header condenses slightly and gains a stronger shadow once the page scrolls
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 8);
     onScroll();
@@ -211,7 +210,6 @@ export default function Header() {
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
-  // Close panels with Escape
   useEffect(() => {
     if (!menuOpen && !searchOpen) return undefined;
     const onKey = (e) => {
@@ -238,8 +236,7 @@ export default function Header() {
 
   return (
     <>
-      {/* Delivery promise strip (scrolls away; the pill below stays fixed) */}
-      <div className="bg-[#0F2D20] px-4 py-1.5 text-center text-[11px] font-medium text-white/85">
+      <div className="bg-[#0F2D20] px-3 py-1.5 text-center text-[11px] font-medium text-white/85">
         <span className="inline-flex items-center gap-2">
           <span className="relative flex h-1.5 w-1.5">
             <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[#98E59E] opacity-70" />
@@ -249,17 +246,16 @@ export default function Header() {
         </span>
       </div>
 
-      <header className="pointer-events-none sticky top-0 z-40 px-3 pt-3 sm:px-6">
+      <header className="pointer-events-none sticky top-0 z-40 px-2 pt-2 sm:px-6">
         <div className="relative mx-auto max-w-[90rem]">
-          {/* Floating pill: [menu / tabs] [logo centred] [actions] */}
           <div
-            className={`pointer-events-auto grid grid-cols-[auto_1fr_auto] items-center gap-3 rounded-full border border-[#E2EAE4] bg-white/85 px-3 backdrop-blur-xl transition-all duration-300 sm:px-3 min-[1400px]:grid-cols-[1fr_auto_1fr] ${
+            className={`pointer-events-auto grid grid-cols-[auto_1fr_auto] items-center gap-1.5 sm:gap-3 rounded-full border border-[#E2EAE4] bg-white/85 px-2 sm:px-3 backdrop-blur-xl transition-all duration-300 min-[1400px]:grid-cols-[1fr_auto_1fr] ${
               scrolled
-                ? 'h-16 shadow-[0_12px_32px_-12px_rgba(21,59,43,0.35)]'
-                : 'h-20 shadow-[0_4px_16px_-8px_rgba(21,59,43,0.2)]'
+                ? 'h-14 sm:h-16 shadow-[0_12px_32px_-12px_rgba(21,59,43,0.35)]'
+                : 'h-16 sm:h-20 shadow-[0_4px_16px_-8px_rgba(21,59,43,0.2)]'
             }`}
           >
-            {/* Left: menu button (below xl) / tabs (xl and up) */}
+            {/* Left: menu button / tabs */}
             <div className="flex items-center justify-start">
               <button
                 type="button"
@@ -269,9 +265,9 @@ export default function Header() {
                 }}
                 aria-label={menuOpen ? 'Close menu' : 'Open menu'}
                 aria-expanded={menuOpen}
-                className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full text-[#153B2B] transition hover:bg-[#F1F6F2] min-[1400px]:hidden"
+                className="flex h-10 w-10 sm:h-11 sm:w-11 shrink-0 items-center justify-center rounded-full text-[#153B2B] transition hover:bg-[#F1F6F2] min-[1400px]:hidden"
               >
-                {menuOpen ? <X size={22} aria-hidden="true" /> : <Menu size={22} aria-hidden="true" />}
+                {menuOpen ? <X size={20} aria-hidden="true" /> : <Menu size={20} aria-hidden="true" />}
               </button>
 
               <nav
@@ -303,19 +299,19 @@ export default function Header() {
             <button
               type="button"
               onClick={() => goTab('shop')}
-              aria-label="Verdant Greens home"
-              className="flex select-none items-center justify-center gap-2 justify-self-center rounded-full py-1 pl-1 pr-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#2C6E49]"
+              aria-label="Sideshwara Greens home"
+              className="flex select-none items-center justify-center gap-1.5 sm:gap-2 justify-self-center rounded-full py-1 pl-1 pr-1.5 sm:pr-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#2C6E49] min-w-0"
             >
-              <span className="flex h-12 w-12 shrink-0 items-center justify-center overflow-hidden rounded-full bg-[#153B2B] p-1.5 text-[#98E59E]">
+              <span className="flex h-9 w-9 sm:h-11 sm:w-11 shrink-0 items-center justify-center overflow-hidden rounded-full bg-[#153B2B] p-1 text-[#98E59E]">
                 <img src={logo} alt="" className="h-full w-full object-contain" />
               </span>
-              <span className="whitespace-nowrap font-serif text-lg font-bold tracking-tight text-[#153B2B] sm:text-2xl">
-                Verdant<span className="text-[#2C6E49]">Greens</span>
+              <span className="truncate whitespace-nowrap font-serif text-sm sm:text-lg lg:text-2xl font-bold tracking-tight text-[#152A1B]">
+                Sideshwara<span className="text-[#2C6E49]">Greens</span>
               </span>
             </button>
 
             {/* Right: search, hub, orders, cart, profile */}
-            <div className="flex items-center justify-end gap-1.5 sm:gap-2">
+            <div className="flex items-center justify-end gap-1 sm:gap-2">
               <button
                 type="button"
                 onClick={() => {
@@ -324,9 +320,9 @@ export default function Header() {
                 }}
                 aria-label="Toggle search"
                 aria-expanded={searchOpen}
-                className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full text-[#153B2B] transition hover:bg-[#F1F6F2]"
+                className="flex h-10 w-10 sm:h-11 sm:w-11 shrink-0 items-center justify-center rounded-full text-[#153B2B] transition hover:bg-[#F1F6F2]"
               >
-                {searchOpen ? <X size={22} aria-hidden="true" /> : <Search size={22} aria-hidden="true" />}
+                {searchOpen ? <X size={20} aria-hidden="true" /> : <Search size={20} aria-hidden="true" />}
               </button>
 
               <HubSelect
@@ -355,12 +351,12 @@ export default function Header() {
                 type="button"
                 onClick={() => setIsCartOpen(true)}
                 aria-label={`Open cart${totals.count > 0 ? `, ${totals.count} items` : ''}`}
-                className="relative flex h-11 shrink-0 items-center gap-2 rounded-full bg-[#153B2B] px-3 text-sm font-bold text-white transition hover:bg-[#0E291D] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#2C6E49] focus-visible:ring-offset-2 sm:px-4"
+                className="relative flex h-10 sm:h-11 shrink-0 items-center gap-1.5 sm:gap-2 rounded-full bg-[#153B2B] px-2.5 sm:px-4 text-xs sm:text-sm font-bold text-white transition hover:bg-[#0E291D] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#2C6E49]"
               >
-                <ShoppingBag size={20} className="text-[#98E59E]" aria-hidden="true" />
+                <ShoppingBag size={18} className="text-[#98E59E] shrink-0" aria-hidden="true" />
                 <span className="hidden sm:inline">Cart</span>
                 {totals.count > 0 && (
-                  <span className="absolute -right-1 -top-1 flex h-[18px] min-w-[18px] items-center justify-center rounded-full bg-[#98E59E] px-1 text-[10px] font-bold text-[#0F2D20] ring-2 ring-white sm:static sm:ring-0">
+                  <span className="absolute -right-1 -top-1 flex h-4 w-4 sm:h-[18px] sm:min-w-[18px] items-center justify-center rounded-full bg-[#98E59E] px-1 text-[9px] sm:text-[10px] font-bold text-[#0F2D20] ring-2 ring-white sm:static sm:ring-0">
                     {totals.count}
                   </span>
                 )}
@@ -369,6 +365,7 @@ export default function Header() {
               <ProfileMenu />
             </div>
           </div>
+
           {/* Search panel */}
           {searchOpen && (
             <div className="pointer-events-auto absolute inset-x-0 top-full mt-2 rounded-3xl border border-[#E2EAE4] bg-white p-3 shadow-[0_24px_60px_-16px_rgba(21,59,43,0.35)]">

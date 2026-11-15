@@ -16,7 +16,7 @@ import {
 import { useStore } from '../../context/StoreContext';
 import { unsplash as u } from '../../utils/unsplash';
 
-// Unsplash photo IDs (same ones used in the product data)
+// Unsplash photo IDs
 const IMG = {
   trays: '1648128774225-b7cf04eb94c6',
   greens: '1647613233075-e0d5546b0f22',
@@ -33,7 +33,6 @@ const IMG = {
 
 const GROWTH_IMAGES = [IMG.beans, IMG.sproutsClose, IMG.trays, IMG.amaranth];
 
-// Photo with a soft green fallback if the image fails to load
 function Img({ id, w, alt, className = '' }) {
   const [failed, setFailed] = React.useState(false);
   if (failed) return <div role="img" aria-label={alt} className={`bg-[#EAF5EC] ${className}`} />;
@@ -177,7 +176,7 @@ export default function AboutUs() {
   return (
     <div className="space-y-20 pb-16">
       {/* Hero */}
-      <section className="relative overflow-hidden bg-[#0F2D20] text-white">
+      <section className="relative overflow-hidden bg-[#0F2D20] text-white rounded-3xl mx-4 sm:mx-6 lg:mx-8 shadow-xl mt-4">
         <div
           aria-hidden="true"
           className="pointer-events-none absolute -right-24 -top-24 h-96 w-96 rounded-full bg-[#2C6E49]/40 blur-3xl"
@@ -196,7 +195,7 @@ export default function AboutUs() {
               Living nutrition, <span className="text-[#98E59E]">harvested at dawn.</span>
             </h1>
             <p className="max-w-2xl text-sm leading-relaxed text-white/75 sm:text-lg">
-              Verdant Greens is Hyderabad&rsquo;s farm-direct source for microgreens, living sprouts and
+              Sideshwara Greens is Hyderabad&rsquo;s farm-direct source for microgreens, living sprouts and
               ready-to-eat sprout bowls, grown in a controlled urban greenhouse and delivered to your door
               every morning.
             </p>
@@ -282,7 +281,7 @@ export default function AboutUs() {
           { id: IMG.wheatgrass, caption: 'Living wheatgrass, roots intact' },
           { id: IMG.proteinBowl, caption: 'Ready-to-eat sprout bowls' }
         ].map((p) => (
-          <figure key={p.caption} className="group relative overflow-hidden rounded-2xl">
+          <figure key={p.caption} className="group relative overflow-hidden rounded-3xl shadow-sm">
             <Img
               id={p.id}
               w={800}
@@ -307,9 +306,9 @@ export default function AboutUs() {
           {PILLARS.map(({ icon: Icon, title, text }) => (
             <article
               key={title}
-              className="group rounded-2xl border border-[#E2EAE4] bg-white p-6 shadow-sm transition hover:-translate-y-0.5 hover:border-[#2C6E49]/40 hover:shadow-md"
+              className="group rounded-3xl border border-[#E2EAE4] bg-white p-6 shadow-sm transition hover:-translate-y-0.5 hover:border-[#2C6E49]/40 hover:shadow-md"
             >
-              <span className="flex h-11 w-11 items-center justify-center rounded-xl bg-[#EAF5EC] text-[#2C6E49] transition group-hover:bg-[#153B2B] group-hover:text-[#98E59E]">
+              <span className="flex h-11 w-11 items-center justify-center rounded-2xl bg-[#EAF5EC] text-[#2C6E49] transition group-hover:bg-[#153B2B] group-hover:text-[#98E59E]">
                 <Icon size={20} aria-hidden="true" />
               </span>
               <h3 className="mt-4 font-serif text-lg font-bold text-[#153B2B]">{title}</h3>
@@ -320,7 +319,7 @@ export default function AboutUs() {
       </section>
 
       {/* Growth timeline */}
-      <section className="bg-[#F4F8F5] py-16">
+      <section className="bg-[#F4F8F5] py-16 border-y border-[#E2EAE4]">
         <div className="mx-auto max-w-7xl space-y-12 px-4 sm:px-6 lg:px-8">
           <SectionHeading
             eyebrow="Seed to plate"
@@ -329,7 +328,7 @@ export default function AboutUs() {
           />
           <ol className="relative grid gap-6 md:grid-cols-4">
             {GROWTH.map((g, i) => (
-              <li key={g.day} className="relative overflow-hidden rounded-2xl bg-white shadow-sm ring-1 ring-[#E2EAE4]">
+              <li key={g.day} className="relative overflow-hidden rounded-3xl bg-white shadow-sm ring-1 ring-[#E2EAE4]">
                 <div className="relative">
                   <Img id={GROWTH_IMAGES[i]} w={600} alt={`${g.title} stage`} className="h-40 w-full" />
                   <span className="absolute left-4 top-4 flex h-9 w-9 items-center justify-center rounded-full bg-[#153B2B] text-sm font-bold text-[#98E59E] ring-2 ring-white">
@@ -365,8 +364,8 @@ export default function AboutUs() {
         />
         <ol className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
           {JOURNEY.map(({ icon: Icon, time, title, text }) => (
-            <li key={title} className="flex items-start gap-4 rounded-2xl border border-[#E2EAE4] bg-white p-5">
-              <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-[#EAF5EC] text-[#2C6E49]">
+            <li key={title} className="flex items-start gap-4 rounded-3xl border border-[#E2EAE4] bg-white p-5 shadow-xs">
+              <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-[#EAF5EC] text-[#2C6E49]">
                 <Icon size={20} aria-hidden="true" />
               </span>
               <div>
@@ -388,7 +387,7 @@ export default function AboutUs() {
               key={r.title}
               type="button"
               onClick={() => setActiveTab(r.tab)}
-              className="group flex flex-col items-start overflow-hidden rounded-2xl border border-[#E2EAE4] bg-white text-left shadow-sm transition hover:border-[#2C6E49]/40 hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#2C6E49]"
+              className="group flex flex-col items-start overflow-hidden rounded-3xl border border-[#E2EAE4] bg-white text-left shadow-sm transition hover:border-[#2C6E49]/40 hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#2C6E49]"
             >
               <div className="w-full overflow-hidden">
                 <Img
@@ -416,7 +415,7 @@ export default function AboutUs() {
       {/* FAQ */}
       <section className="mx-auto max-w-3xl space-y-8 px-4 sm:px-6 lg:px-8">
         <SectionHeading eyebrow="Good to know" title="Frequently asked questions" />
-        <div className="divide-y divide-[#E2EAE4] rounded-2xl border border-[#E2EAE4] bg-white">
+        <div className="divide-y divide-[#E2EAE4] rounded-3xl border border-[#E2EAE4] bg-white overflow-hidden shadow-sm">
           {FAQS.map((f) => (
             <details key={f.q} className="group p-5">
               <summary className="flex cursor-pointer list-none items-center justify-between gap-4 text-sm font-semibold text-[#153B2B] sm:text-base [&::-webkit-details-marker]:hidden">
