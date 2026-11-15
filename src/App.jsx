@@ -13,6 +13,7 @@ import HealthPage from './pages/HealthPage';
 import FarmPage from './pages/FarmPage';
 import OrdersPage from './pages/OrdersPage';
 import ProfilePage from './pages/ProfilePage';
+import AboutUs from './components/home/AboutUs';
 
 const PAGES = {
   shop: ShopPage,
@@ -20,7 +21,8 @@ const PAGES = {
   health: HealthPage,
   farm: FarmPage,
   orders: OrdersPage,
-  profile: ProfilePage
+  profile: ProfilePage,
+  about: AboutUs
 };
 
 function AppShell() {
@@ -28,7 +30,18 @@ function AppShell() {
   const Page = PAGES[activeTab] || ShopPage;
 
   return (
-    <div className="min-h-screen bg-[#FAFBF9] text-[#152A1B] font-sans antialiased">
+    <div className="relative min-h-screen text-[#152A1B] font-sans antialiased">
+      {/* Page background: mint gradient, soft green glows and a faint dot grid */}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none fixed inset-0 -z-10 overflow-hidden bg-gradient-to-b from-[#F4FAF5] via-[#EEF6F0] to-[#F8FBF8]"
+      >
+        <div className="absolute -left-40 -top-40 h-[34rem] w-[34rem] rounded-full bg-[#98E59E]/30 blur-3xl" />
+        <div className="absolute -right-32 top-1/4 h-[30rem] w-[30rem] rounded-full bg-[#2C6E49]/15 blur-3xl" />
+        <div className="absolute -bottom-40 left-1/4 h-[32rem] w-[32rem] rounded-full bg-[#CDEFD2]/50 blur-3xl" />
+        <div className="absolute inset-0 opacity-60 [background-image:radial-gradient(rgba(21,59,43,0.10)_1px,transparent_1px)] [background-size:24px_24px] [mask-image:linear-gradient(to_bottom,black,transparent_85%)]" />
+      </div>
+
       <Header />
 
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-6 pb-20 space-y-12">

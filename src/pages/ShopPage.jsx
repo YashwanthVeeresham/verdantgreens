@@ -3,11 +3,13 @@ import { useStore } from '../context/StoreContext';
 import { filterByCategory, searchProducts } from '../utils/filters';
 import { BEST_SELLER_PILLS } from '../data/products';
 import HeroBanner from '../components/home/HeroBanner';
+import ProductMarquee from '../components/home/ProductMarquee';
 import CategoryTiles from '../components/home/CategoryTiles';
 import FreshPicks from '../components/home/FreshPicks';
 import PromoBanners from '../components/home/PromoBanners';
 import ProductRow from '../components/home/ProductRow';
 import CtaBanner from '../components/home/CtaBanner';
+import ProcessVideoSection from '../components/home/ProcessVideoSection';
 import ReviewsSection from '../components/home/ReviewsSection';
 
 function FilterPills({ value, onChange }) {
@@ -48,6 +50,7 @@ export default function ShopPage() {
   return (
     <div className="space-y-12">
       <HeroBanner onShopNow={() => selectCategory('all')} />
+      <ProductMarquee />
       <CategoryTiles activeCategory={activeCategory} onSelect={selectCategory} />
       <FreshPicks ref={catalogRef} items={freshPicks} loading={loading} onShowAll={() => setActiveCategory('all')} />
       <PromoBanners onSelectCategory={selectCategory} />
@@ -63,6 +66,7 @@ export default function ShopPage() {
         actionLabel="Show All"
         onAction={() => setBestSellerFilter('all')}
       />
+      <ProcessVideoSection />
       <ReviewsSection />
     </div>
   );

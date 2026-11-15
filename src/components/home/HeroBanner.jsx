@@ -8,7 +8,7 @@ import { PHOTO } from '../../data/products';
 const HERO_IMAGES = [PHOTO.A, PHOTO.B, PHOTO.C, PHOTO.D, PHOTO.E];
 
 export default function HeroBanner({ onShopNow }) {
-  const { products, selectedLocality, setSelectedProduct, addToCart } = useStore();
+  const { products, selectedLocality, setSelectedProduct, addToCart, setActiveTab } = useStore();
   const spotlight = products.find((p) => (p.sku || p.id) === 'bowl-gongura-power') || products[0];
 
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -30,25 +30,34 @@ export default function HeroBanner({ onShopNow }) {
           <span>Same-Day Morning Harvest • {selectedLocality}</span>
         </div>
         <h1 className="font-serif text-4xl sm:text-6xl lg:text-7xl font-bold tracking-tight text-[#B8F5B1] drop-shadow-sm">
-           Verdant <span className="text-white">Greens</span>
+          Verdant <span className="text-white">Greens</span>
         </h1>
       </div>
 
       <div className="relative z-10 grid grid-cols-1 md:grid-cols-12 items-center gap-6 pt-2">
         <div className="md:col-span-4 space-y-4 text-center md:text-left">
           <p className="text-xs sm:text-sm text-[#ECF8F0] leading-relaxed max-w-xs mx-auto md:mx-0">
-            Shop from freshly harvested microgreens, germinated sprout bowls, and living wheatgrass trays at farm-direct prices.
+            Shop from freshly harvested microgreens, germinated sprout bowls, and living wheatgrass trays at farm-direct prices across Hyderabad.
           </p>
-          <button
-            type="button"
-            onClick={onShopNow}
-            className="inline-flex items-center space-x-2.5 pl-5 pr-2 py-2 rounded-full bg-[#133325] hover:bg-[#0B2117] text-white text-xs font-bold shadow-lg transition"
-          >
-            <span>Shop Now</span>
-            <span className="w-6 h-6 rounded-full bg-white text-[#133325] flex items-center justify-center">
-              <ArrowRight size={13} />
-            </span>
-          </button>
+          <div className="flex flex-wrap items-center justify-center md:justify-start gap-3">
+            <button
+              type="button"
+              onClick={onShopNow}
+              className="inline-flex items-center space-x-2.5 pl-5 pr-2 py-2 rounded-full bg-[#133325] hover:bg-[#0B2117] text-white text-xs font-bold shadow-lg transition"
+            >
+              <span>Shop Now</span>
+              <span className="w-6 h-6 rounded-full bg-white text-[#133325] flex items-center justify-center">
+                <ArrowRight size={13} />
+              </span>
+            </button>
+            <button
+              type="button"
+              onClick={() => setActiveTab('about')}
+              className="inline-flex items-center px-5 py-2 rounded-full bg-white/15 hover:bg-white/25 text-white text-xs font-bold backdrop-blur-md border border-white/30 transition"
+            >
+              <span>Learn More</span>
+            </button>
+          </div>
         </div>
 
         <div className="md:col-span-4 flex justify-center">
@@ -58,9 +67,8 @@ export default function HeroBanner({ onShopNow }) {
                 key={photoId}
                 src={unsplash(photoId, 700)}
                 alt="Fresh Sprouts Harvest"
-                className={`absolute inset-0 w-full h-full object-cover rounded-full transition-opacity duration-1000 ${
-                  idx === currentIndex ? 'opacity-100 scale-100' : 'opacity-0 scale-105'
-                }`}
+                className={`absolute inset-0 w-full h-full object-cover rounded-full transition-opacity duration-1000 ${idx === currentIndex ? 'opacity-100 scale-100' : 'opacity-0 scale-105'
+                  }`}
               />
             ))}
             <div className="absolute bottom-3 left-0 right-0 flex justify-center space-x-1.5 z-20">
@@ -68,9 +76,8 @@ export default function HeroBanner({ onShopNow }) {
                 <button
                   key={idx}
                   onClick={() => setCurrentIndex(idx)}
-                  className={`w-2 h-2 rounded-full transition-all ${
-                    idx === currentIndex ? 'bg-white w-5' : 'bg-white/50'
-                  }`}
+                  className={`w-2 h-2 rounded-full transition-all ${idx === currentIndex ? 'bg-white w-5' : 'bg-white/50'
+                    }`}
                   aria-label={`Go to slide ${idx + 1}`}
                 />
               ))}

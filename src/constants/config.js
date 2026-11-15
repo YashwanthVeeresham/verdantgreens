@@ -58,5 +58,6 @@ export const TABS = [
   { id: 'shop', label: 'Shop' },
   { id: 'box-builder', label: 'Weekly Boxes' },
   { id: 'health', label: 'Health Match' },
-  { id: 'farm', label: 'Growing Biology' }
+  { id: 'farm', label: 'Growing Biology' },
+  { id: 'about', label: 'About Us' }
 ];

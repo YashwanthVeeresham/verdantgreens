@@ -1,9 +1,21 @@
-import React, { useCallback, useRef, useState } from 'react';
-import { Leaf, ShoppingBag, MapPin, Package, Search, X, User, Shield, LogIn, LogOut } from 'lucide-react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
+import {
+  ChevronDown,
+  LogIn,
+  LogOut,
+  MapPin,
+  Menu,
+  Package,
+  Search,
+  Shield,
+  ShoppingBag,
+  User,
+  X
+} from 'lucide-react';
 import { useStore } from '../../context/StoreContext';
 import { useClickOutside } from '../../hooks/useClickOutside';
 import { LOCALITIES, TABS } from '../../constants/config';
-import logo from "../../../public/logo.svg";
+import logo from '../../../public/logo.svg';
 
 function ProfileMenu() {
   const { profile, orders, setActiveTab, setIsLoginOpen, signOut } = useStore();
@@ -11,6 +23,9 @@ function ProfileMenu() {
   const ref = useRef(null);
   const close = useCallback(() => setOpen(false), []);
   useClickOutside(ref, close);
+
+  const name = profile.name || '';
+  const initial = name ? name.charAt(0).toUpperCase() : 'U';
 
   const go = (tab) => {
     setActiveTab(tab);
@@ -20,73 +35,152 @@ function ProfileMenu() {
   return (
     <div className="relative" ref={ref}>
       <button
+        type="button"
         onClick={() => setOpen((o) => !o)}
-        className="flex items-center space-x-1.5 pl-2 pr-3 py-1 rounded-full bg-[#F4F7F5] hover:bg-[#E6EFE8] border border-[#DCE6DF] text-[#152A1B] transition"
+        aria-haspopup="menu"
+        aria-expanded={open}
+        aria-label="Account menu"
+        className="flex h-11 items-center gap-1.5 rounded-full border border-[#DCE6DF] bg-white p-1 text-[#152A1B] transition hover:border-[#2C6E49]/50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#2C6E49] xl:pr-3"
       >
-        <span className="w-6 h-6 rounded-full bg-[#153B2B] text-[#98E59E] flex items-center justify-center text-[11px] font-bold">
-          {profile.name ? profile.name.charAt(0).toUpperCase() : 'U'}
+        <span className="flex h-9 w-9 items-center justify-center rounded-full bg-[#153B2B] text-sm font-bold text-[#98E59E]">
+          {initial}
         </span>
-        <span className="hidden md:inline max-w-[90px] truncate">{profile.name.split(' ')[0]}</span>
+        <span className="hidden max-w-[80px] truncate text-xs font-semibold xl:inline">{name.split(' ')[0]}</span>
+        <ChevronDown
+          size={14}
+          aria-hidden="true"
+          className={`hidden text-[#7A8C7E] transition xl:block ${open ? 'rotate-180' : ''}`}
+        />
       </button>
 
       {open && (
-        <div className="absolute right-0 mt-2 w-60 bg-white rounded-2xl shadow-xl border border-[#E2EAE4] py-2 z-50">
-          <div className="px-4 py-2.5 border-b border-[#F0F4F1] mb-1">
-            <p className="font-bold text-sm text-[#152A1B] truncate">{profile.name}</p>
-            <p className="text-[11px] text-[#7A8C7E] truncate">{profile.email}</p>
-            <div className="mt-1 flex items-center space-x-1 text-[10px] text-[#2C6E49] font-semibold">
-              <Shield size={11} />
-              <span>{profile.memberTier}</span>
+        <div
+          role="menu"
+          className="absolute right-0 z-50 mt-3 w-64 overflow-hidden rounded-3xl border border-[#E2EAE4] bg-white py-2 shadow-[0_24px_60px_-16px_rgba(21,59,43,0.35)]"
+        >
+          <div className="mb-1 flex items-center gap-3 border-b border-[#F0F4F1] px-4 pb-3 pt-2">
+            <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[#153B2B] text-sm font-bold text-[#98E59E]">
+              {initial}
+            </span>
+            <div className="min-w-0">
+              <p className="truncate text-sm font-bold text-[#152A1B]">{profile.name}</p>
+              <p className="truncate text-[11px] text-[#7A8C7E]">{profile.email}</p>
+              <div className="mt-1 inline-flex items-center gap-1 rounded-full bg-[#EAF5EC] px-2 py-0.5 text-[10px] font-semibold text-[#2C6E49]">
+                <Shield size={10} aria-hidden="true" />
+                <span>{profile.memberTier}</span>
+              </div>
             </div>
           </div>
 
           <div className="space-y-0.5 px-1.5 text-xs">
             <button
+              type="button"
+              role="menuitem"
               onClick={() => go('profile')}
-              className="w-full flex items-center space-x-2 px-3 py-2 rounded-xl text-[#152A1B] hover:bg-[#F4F7F5] transition text-left"
+              className="flex w-full items-center gap-2.5 rounded-xl px-3 py-2.5 text-left text-[#152A1B] transition hover:bg-[#F4F7F5]"
             >
-              <User size={14} className="text-[#2C6E49]" />
-              <span>Profile & Address</span>
+              <User size={15} className="text-[#2C6E49]" aria-hidden="true" />
+              <span>Profile &amp; Address</span>
             </button>
 
             <button
+              type="button"
+              role="menuitem"
               onClick={() => go('orders')}
-              className="w-full flex items-center justify-between px-3 py-2 rounded-xl text-[#152A1B] hover:bg-[#F4F7F5] transition text-left"
+              className="flex w-full items-center justify-between rounded-xl px-3 py-2.5 text-left text-[#152A1B] transition hover:bg-[#F4F7F5]"
             >
-              <div className="flex items-center space-x-2">
-                <Package size={14} className="text-[#2C6E49]" />
+              <span className="flex items-center gap-2.5">
+                <Package size={15} className="text-[#2C6E49]" aria-hidden="true" />
                 <span>Orders Dashboard</span>
-              </div>
-              <span className="px-1.5 py-0.5 rounded-full text-[10px] font-bold bg-[#EAF5EC] text-[#2C6E49]">
+              </span>
+              <span className="rounded-full bg-[#EAF5EC] px-1.5 py-0.5 text-[10px] font-bold text-[#2C6E49]">
                 {orders.orders.length}
               </span>
             </button>
 
-            <div className="border-t border-[#F0F4F1] my-1" />
+            <div className="my-1 border-t border-[#F0F4F1]" />
 
             <button
+              type="button"
+              role="menuitem"
               onClick={() => {
                 setIsLoginOpen(true);
                 setOpen(false);
               }}
-              className="w-full flex items-center space-x-2 px-3 py-2 rounded-xl text-[#2C6E49] hover:bg-[#F4F7F5] transition text-left font-bold"
+              className="flex w-full items-center gap-2.5 rounded-xl px-3 py-2.5 text-left font-bold text-[#2C6E49] transition hover:bg-[#F4F7F5]"
             >
-              <LogIn size={14} />
+              <LogIn size={15} aria-hidden="true" />
               <span>Login / Signup</span>
             </button>
 
             <button
+              type="button"
+              role="menuitem"
               onClick={() => {
                 signOut();
                 go('shop');
               }}
-              className="w-full flex items-center space-x-2 px-3 py-2 rounded-xl text-red-600 hover:bg-red-50 transition text-left font-semibold"
+              className="flex w-full items-center gap-2.5 rounded-xl px-3 py-2.5 text-left font-semibold text-red-600 transition hover:bg-red-50"
             >
-              <LogOut size={14} />
+              <LogOut size={15} aria-hidden="true" />
               <span>Log Out</span>
             </button>
           </div>
         </div>
+      )}
+    </div>
+  );
+}
+
+function HubSelect({ value, onChange, className = '' }) {
+  return (
+    <label
+      className={`flex h-11 items-center gap-1.5 rounded-full bg-[#EAF5EC] px-3 text-sm font-semibold text-[#153B2B] transition focus-within:ring-2 focus-within:ring-[#2C6E49] ${className}`}
+    >
+      <MapPin size={14} className="shrink-0 text-[#2C6E49]" aria-hidden="true" />
+      <span className="sr-only">Delivery hub</span>
+      <select
+        value={value}
+        onChange={onChange}
+        aria-label="Delivery hub"
+        className="max-w-[130px] cursor-pointer truncate bg-transparent font-bold focus:outline-none"
+      >
+        {LOCALITIES.map((loc) => (
+          <option key={loc} value={loc}>
+            {loc}
+          </option>
+        ))}
+      </select>
+    </label>
+  );
+}
+
+function SearchField({ value, onChange, onClear, autoFocus = false, className = '' }) {
+  return (
+    <div className={`relative ${className}`}>
+      <Search
+        size={15}
+        aria-hidden="true"
+        className="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 text-[#7A8C7E]"
+      />
+      <input
+        type="text"
+        autoFocus={autoFocus}
+        value={value}
+        onChange={onChange}
+        placeholder="Search Sprouts, Bowls..."
+        aria-label="Search products"
+        className="h-11 w-full rounded-full border border-transparent bg-[#F1F6F2] pl-10 pr-9 text-sm text-[#152A1B] placeholder-[#8A9B8E] transition focus:border-[#2C6E49] focus:bg-white focus:outline-none focus:ring-4 focus:ring-[#2C6E49]/10"
+      />
+      {value && (
+        <button
+          type="button"
+          onClick={onClear}
+          aria-label="Clear search"
+          className="absolute right-3 top-1/2 -translate-y-1/2 rounded-full p-0.5 text-[#7A8C7E] hover:text-[#152A1B]"
+        >
+          <X size={15} aria-hidden="true" />
+        </button>
       )}
     </div>
   );
@@ -105,106 +199,232 @@ export default function Header() {
     orders
   } = useStore();
 
+  const [scrolled, setScrolled] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [searchOpen, setSearchOpen] = useState(false);
+
+  // Header condenses slightly and gains a stronger shadow once the page scrolls
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 8);
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
+
+  // Close panels with Escape
+  useEffect(() => {
+    if (!menuOpen && !searchOpen) return undefined;
+    const onKey = (e) => {
+      if (e.key === 'Escape') {
+        setMenuOpen(false);
+        setSearchOpen(false);
+      }
+    };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, [menuOpen, searchOpen]);
+
+  const goTab = (id) => {
+    setActiveTab(id);
+    setMenuOpen(false);
+  };
+
+  const handleSearch = (e) => {
+    setSearchQuery(e.target.value);
+    if (activeTab !== 'shop') setActiveTab('shop');
+  };
+
+  const clearSearch = () => setSearchQuery('');
+
   return (
-    <header className="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-[#E6ECE7]">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-4 border-b border-[#F0F4F1]">
-        <div className="relative w-44 sm:w-64 lg:w-72">
-          <Search size={14} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-[#7A8C7E]" />
-          <input
-            type="text"
-            value={searchQuery}
-            onChange={(e) => {
-              setSearchQuery(e.target.value);
-              if (activeTab !== 'shop') setActiveTab('shop');
-            }}
-            placeholder="Search Sprouts, Bowls..."
-            className="w-full pl-9 pr-7 py-1.5 bg-[#F5F8F6] border border-[#E2EAE4] rounded-full text-xs text-[#152A1B] placeholder-[#8A9B8E] focus:outline-none focus:border-[#2C6E49] focus:bg-white transition"
-          />
-          {searchQuery && (
-            <button
-              onClick={() => setSearchQuery('')}
-              aria-label="Clear search"
-              className="absolute right-2.5 top-1/2 -translate-y-1/2 text-[#7A8C7E] hover:text-[#152A1B]"
-            >
-              <X size={13} />
-            </button>
-          )}
-        </div>
-
-        <div onClick={() => setActiveTab('shop')} className="flex items-center space-x-2 cursor-pointer select-none">
-          <span className="w-7 h-7 rounded-lg bg-[#153B2B] text-[#98E59E] flex items-center justify-center">
-          <img src={logo} alt="Sideshwara Greens Logo" className="w-full h-full object-contain" />
+    <>
+      {/* Delivery promise strip (scrolls away; the pill below stays fixed) */}
+      <div className="bg-[#0F2D20] px-4 py-1.5 text-center text-[11px] font-medium text-white/85">
+        <span className="inline-flex items-center gap-2">
+          <span className="relative flex h-1.5 w-1.5">
+            <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[#98E59E] opacity-70" />
+            <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-[#98E59E]" />
           </span>
-          <span className="font-serif text-xl sm:text-2xl font-bold tracking-tight text-[#153B2B]">
-            Verdant<span className="text-[#2C6E49]">Greens</span>
-          </span>
-        </div>
+          5:00 AM Harvest <span className="text-white/30">•</span> 6:30–9:00 AM Delivery
+        </span>
+      </div>
 
-        <div className="flex items-center space-x-2 sm:space-x-4 text-xs font-semibold">
-          <button
-            onClick={() => setActiveTab('orders')}
-            className={`hidden sm:flex items-center space-x-1.5 px-2.5 py-1.5 rounded-full transition ${
-              activeTab === 'orders' ? 'bg-[#EAF5EC] text-[#153B2B] font-bold' : 'text-[#3F5445] hover:text-[#153B2B]'
+      <header className="pointer-events-none sticky top-0 z-40 px-3 pt-3 sm:px-6">
+        <div className="relative mx-auto max-w-[90rem]">
+          {/* Floating pill: [menu / tabs] [logo centred] [actions] */}
+          <div
+            className={`pointer-events-auto grid grid-cols-[auto_1fr_auto] items-center gap-3 rounded-full border border-[#E2EAE4] bg-white/85 px-3 backdrop-blur-xl transition-all duration-300 sm:px-3 min-[1400px]:grid-cols-[1fr_auto_1fr] ${
+              scrolled
+                ? 'h-16 shadow-[0_12px_32px_-12px_rgba(21,59,43,0.35)]'
+                : 'h-20 shadow-[0_4px_16px_-8px_rgba(21,59,43,0.2)]'
             }`}
           >
-            <Package size={15} className="text-[#2C6E49]" />
-            <span>Orders ({orders.orders.length})</span>
-          </button>
+            {/* Left: menu button (below xl) / tabs (xl and up) */}
+            <div className="flex items-center justify-start">
+              <button
+                type="button"
+                onClick={() => {
+                  setMenuOpen((o) => !o);
+                  setSearchOpen(false);
+                }}
+                aria-label={menuOpen ? 'Close menu' : 'Open menu'}
+                aria-expanded={menuOpen}
+                className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full text-[#153B2B] transition hover:bg-[#F1F6F2] min-[1400px]:hidden"
+              >
+                {menuOpen ? <X size={22} aria-hidden="true" /> : <Menu size={22} aria-hidden="true" />}
+              </button>
 
-          <button
-            onClick={() => setIsCartOpen(true)}
-            className="relative flex items-center space-x-1.5 px-2.5 py-1.5 rounded-full text-[#3F5445] hover:text-[#153B2B] transition"
-          >
-            <ShoppingBag size={15} className="text-[#2C6E49]" />
-            <span className="hidden sm:inline">Cart</span>
-            {totals.count > 0 && (
-              <span className="bg-[#153B2B] text-[#98E59E] text-[10px] font-bold px-1.5 py-0.5 rounded-full">
-                {totals.count}
-              </span>
-            )}
-          </button>
+              <nav
+                aria-label="Main"
+                className="hidden items-center gap-1 rounded-full bg-[#F1F6F2] p-1 min-[1400px]:flex"
+              >
+                {TABS.map((tab) => {
+                  const active = activeTab === tab.id;
+                  return (
+                    <button
+                      key={tab.id}
+                      type="button"
+                      onClick={() => setActiveTab(tab.id)}
+                      aria-current={active ? 'page' : undefined}
+                      className={`whitespace-nowrap rounded-full px-4 py-2 text-sm font-semibold transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#2C6E49] ${
+                        active
+                          ? 'bg-[#153B2B] text-white shadow-sm'
+                          : 'text-[#4B5F50] hover:bg-white hover:text-[#153B2B]'
+                      }`}
+                    >
+                      {tab.label}
+                    </button>
+                  );
+                })}
+              </nav>
+            </div>
 
-          <ProfileMenu />
-        </div>
-      </div>
-
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-11 flex items-center justify-between text-xs overflow-x-auto gap-6">
-        <nav className="flex items-center space-x-6 font-semibold shrink-0">
-          {TABS.map((tab) => (
+            {/* Center: logo + name */}
             <button
-              key={tab.id}
-              onClick={() => setActiveTab(tab.id)}
-              className={`transition py-1 ${
-                activeTab === tab.id
-                  ? 'text-[#153B2B] font-bold border-b-2 border-[#153B2B]'
-                  : 'text-[#5C6E5F] hover:text-[#153B2B]'
-              }`}
+              type="button"
+              onClick={() => goTab('shop')}
+              aria-label="Verdant Greens home"
+              className="flex select-none items-center justify-center gap-2 justify-self-center rounded-full py-1 pl-1 pr-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#2C6E49]"
             >
-              {tab.label}
+              <span className="flex h-12 w-12 shrink-0 items-center justify-center overflow-hidden rounded-full bg-[#153B2B] p-1.5 text-[#98E59E]">
+                <img src={logo} alt="" className="h-full w-full object-contain" />
+              </span>
+              <span className="whitespace-nowrap font-serif text-lg font-bold tracking-tight text-[#153B2B] sm:text-2xl">
+                Verdant<span className="text-[#2C6E49]">Greens</span>
+              </span>
             </button>
-          ))}
-        </nav>
 
-        <div className="flex items-center space-x-4 text-[11px] text-[#5C6E5F] shrink-0">
-          <div className="flex items-center space-x-1 font-semibold text-[#153B2B]">
-            <MapPin size={13} className="text-[#2C6E49]" />
-            <span>Hub:</span>
-            <select
-              value={selectedLocality}
-              onChange={(e) => changeLocality(e.target.value)}
-              className="bg-transparent font-bold text-[#153B2B] focus:outline-none cursor-pointer"
-            >
-              {LOCALITIES.map((loc) => (
-                <option key={loc} value={loc}>
-                  {loc}
-                </option>
-              ))}
-            </select>
+            {/* Right: search, hub, orders, cart, profile */}
+            <div className="flex items-center justify-end gap-1.5 sm:gap-2">
+              <button
+                type="button"
+                onClick={() => {
+                  setSearchOpen((o) => !o);
+                  setMenuOpen(false);
+                }}
+                aria-label="Toggle search"
+                aria-expanded={searchOpen}
+                className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full text-[#153B2B] transition hover:bg-[#F1F6F2]"
+              >
+                {searchOpen ? <X size={22} aria-hidden="true" /> : <Search size={22} aria-hidden="true" />}
+              </button>
+
+              <HubSelect
+                value={selectedLocality}
+                onChange={(e) => changeLocality(e.target.value)}
+                className="hidden min-[1400px]:flex"
+              />
+
+              <button
+                type="button"
+                onClick={() => setActiveTab('orders')}
+                aria-label={`Orders (${orders.orders.length})`}
+                className={`hidden h-11 items-center gap-1.5 rounded-full px-3 text-sm font-semibold transition min-[1400px]:flex ${
+                  activeTab === 'orders'
+                    ? 'bg-[#EAF5EC] text-[#153B2B]'
+                    : 'text-[#3F5445] hover:bg-[#F1F6F2] hover:text-[#153B2B]'
+                }`}
+              >
+                <Package size={20} className="text-[#2C6E49]" aria-hidden="true" />
+                <span className="rounded-full bg-[#EAF5EC] px-1.5 py-0.5 text-[10px] font-bold text-[#2C6E49]">
+                  {orders.orders.length}
+                </span>
+              </button>
+
+              <button
+                type="button"
+                onClick={() => setIsCartOpen(true)}
+                aria-label={`Open cart${totals.count > 0 ? `, ${totals.count} items` : ''}`}
+                className="relative flex h-11 shrink-0 items-center gap-2 rounded-full bg-[#153B2B] px-3 text-sm font-bold text-white transition hover:bg-[#0E291D] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#2C6E49] focus-visible:ring-offset-2 sm:px-4"
+              >
+                <ShoppingBag size={20} className="text-[#98E59E]" aria-hidden="true" />
+                <span className="hidden sm:inline">Cart</span>
+                {totals.count > 0 && (
+                  <span className="absolute -right-1 -top-1 flex h-[18px] min-w-[18px] items-center justify-center rounded-full bg-[#98E59E] px-1 text-[10px] font-bold text-[#0F2D20] ring-2 ring-white sm:static sm:ring-0">
+                    {totals.count}
+                  </span>
+                )}
+              </button>
+
+              <ProfileMenu />
+            </div>
           </div>
-          <span className="hidden md:inline text-[#D1DDD4]">|</span>
-          <span className="hidden md:inline font-medium text-[#2C6E49]">5:00 AM Harvest • 6:30–9:00 AM Delivery</span>
+          {/* Search panel */}
+          {searchOpen && (
+            <div className="pointer-events-auto absolute inset-x-0 top-full mt-2 rounded-3xl border border-[#E2EAE4] bg-white p-3 shadow-[0_24px_60px_-16px_rgba(21,59,43,0.35)]">
+              <SearchField autoFocus value={searchQuery} onChange={handleSearch} onClear={clearSearch} />
+            </div>
+          )}
+
+          {/* Mobile / tablet menu panel */}
+          {menuOpen && (
+            <nav
+              aria-label="Mobile"
+              className="pointer-events-auto absolute inset-x-0 top-full mt-2 rounded-3xl border border-[#E2EAE4] bg-white p-3 shadow-[0_24px_60px_-16px_rgba(21,59,43,0.35)] min-[1400px]:hidden"
+            >
+              <ul className="space-y-1">
+                {TABS.map((tab) => {
+                  const active = activeTab === tab.id;
+                  return (
+                    <li key={tab.id}>
+                      <button
+                        type="button"
+                        onClick={() => goTab(tab.id)}
+                        aria-current={active ? 'page' : undefined}
+                        className={`flex w-full items-center justify-between rounded-2xl px-4 py-3 text-sm font-semibold transition ${
+                          active ? 'bg-[#153B2B] text-white' : 'text-[#3F5445] hover:bg-[#F1F6F2]'
+                        }`}
+                      >
+                        {tab.label}
+                        {active && <span className="h-2 w-2 rounded-full bg-[#98E59E]" />}
+                      </button>
+                    </li>
+                  );
+                })}
+                <li>
+                  <button
+                    type="button"
+                    onClick={() => goTab('orders')}
+                    className="flex w-full items-center justify-between rounded-2xl px-4 py-3 text-sm font-semibold text-[#3F5445] hover:bg-[#F1F6F2]"
+                  >
+                    <span className="flex items-center gap-2">
+                      <Package size={16} className="text-[#2C6E49]" aria-hidden="true" />
+                      Orders
+                    </span>
+                    <span className="rounded-full bg-[#EAF5EC] px-2 py-0.5 text-[11px] font-bold text-[#2C6E49]">
+                      {orders.orders.length}
+                    </span>
+                  </button>
+                </li>
+              </ul>
+              <div className="mt-3 flex items-center justify-between gap-3 border-t border-[#F0F4F1] pt-3">
+                <span className="text-xs font-semibold text-[#5C6E5F]">Delivering to</span>
+                <HubSelect value={selectedLocality} onChange={(e) => changeLocality(e.target.value)} />
+              </div>
+            </nav>
+          )}
         </div>
-      </div>
-    </header>
+      </header>
+    </>
   );
 }
