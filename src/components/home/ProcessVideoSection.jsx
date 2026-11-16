@@ -8,7 +8,6 @@ const PROCESS_VIDEOS = [
     duration: '0:45',
     category: 'Greenhouse Live',
     thumbnail: 'https://images.unsplash.com/photo-1551024709-8f23befc6f87?auto=format&fit=crop&w=800&q=80',
-    videoUrl: 'https://www.youtube.com/embed/9bZkp7q19f0',
     description: 'Witness our farmers cutting living wheatgrass and microgreen punnets at dawn when phytonutrient concentration peaks.'
   },
   {
@@ -17,7 +16,6 @@ const PROCESS_VIDEOS = [
     duration: '0:60',
     category: 'Growing Biology',
     thumbnail: 'https://images.unsplash.com/photo-1526318896980-cf79972f2e27?auto=format&fit=crop&w=800&q=80',
-    videoUrl: 'https://www.youtube.com/embed/9bZkp7q19f0',
     description: 'How organic desi moong and chana seeds are soaked in purified triple-RO water to break down phytates and activate enzymes.'
   },
   {
@@ -26,7 +24,6 @@ const PROCESS_VIDEOS = [
     duration: '0:30',
     category: 'Doorstep Delivery',
     thumbnail: 'https://images.unsplash.com/photo-1615485290382-441e4d049cb5?auto=format&fit=crop&w=800&q=80',
-    videoUrl: 'https://www.youtube.com/embed/9bZkp7q19f0',
     description: 'Packed fresh and dispatched across Gachibowli, Hitec City, and Jubilee Hills for crisp 6:30 AM delivery.'
   }
 ];
@@ -213,14 +210,9 @@ export default function ProcessVideoSection() {
                   <X size={16} aria-hidden="true" />
                 </button>
               </div>
-              <div className="relative aspect-video w-full bg-black">
-                <iframe
-                  src={`${activeVideo.videoUrl}?autoplay=1`}
-                  title={activeVideo.title}
-                  className="h-full w-full"
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                  allowFullScreen
-                />
+              <div className="relative aspect-video w-full bg-[#152A1B] flex flex-col items-center justify-center p-6 text-center">
+                <p className="text-sm font-semibold text-white/90">Video preview coming soon!</p>
+                <p className="text-xs text-white/60 mt-1">Stay tuned for our live greenhouse tour updates.</p>
               </div>
               <div className="bg-[#0F2D20] p-4 text-xs leading-relaxed text-white/70">{activeVideo.description}</div>
             </div>
