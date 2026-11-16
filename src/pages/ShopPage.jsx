@@ -52,7 +52,10 @@ export default function ShopPage() {
       <HeroBanner onShopNow={() => selectCategory('all')} />
       <ProductMarquee />
       <CategoryTiles activeCategory={activeCategory} onSelect={selectCategory} />
-      <FreshPicks ref={catalogRef} items={freshPicks} loading={loading} onShowAll={() => setActiveCategory('all')} />
+      {/* The Shop tab scrolls here (see App.jsx) */}
+      <div id="products">
+        <FreshPicks ref={catalogRef} items={freshPicks} loading={loading} onShowAll={() => setActiveCategory('all')} />
+      </div>
       <PromoBanners onSelectCategory={selectCategory} />
       <ProductRow
         title="Weekly Best Selling Items"

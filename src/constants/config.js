@@ -55,6 +55,7 @@ export const DEMO_PROFILE = {
 };
 
 export const TABS = [
+  { id: 'home', label: 'Home' },
   { id: 'shop', label: 'Shop' },
   { id: 'box-builder', label: 'Weekly Boxes' },
   { id: 'health', label: 'Health Match' },

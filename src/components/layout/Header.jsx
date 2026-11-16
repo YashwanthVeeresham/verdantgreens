@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import {
   ChevronDown,
+  Home,
   LogIn,
   LogOut,
   MapPin,
@@ -14,7 +15,7 @@ import {
 } from 'lucide-react';
 import { useStore } from '../../context/StoreContext';
 import { useClickOutside } from '../../hooks/useClickOutside';
-import { LOCALITIES, TABS } from '../../constants/config';
+import { FREE_SHIPPING_THRESHOLD, LOCALITIES, TABS } from '../../constants/config';
 import logo from '../../../public/logo.svg';
 
 function ProfileMenu() {
@@ -40,17 +41,17 @@ function ProfileMenu() {
         aria-haspopup="menu"
         aria-expanded={open}
         aria-label="Account menu"
-        className="flex h-10 items-center gap-1.5 rounded-full border border-[#DCE6DF] bg-white p-1 text-[#152A1B] transition hover:border-[#2C6E49]/50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#2C6E49] xl:pr-3"
+        title={name}
+        className="relative flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[#EAF5EC] sm:h-9 sm:w-9 text-xs font-bold text-[#153B2B] ring-1 ring-[#CFE6D4] transition hover:ring-2 hover:ring-[#2C6E49]/60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#2C6E49]"
       >
-        <span className="flex h-8 w-8 items-center justify-center rounded-full bg-[#153B2B] text-xs font-bold text-[#98E59E]">
-          {initial}
+        {initial}
+        <span className="absolute -bottom-0.5 -right-0.5 flex h-3.5 w-3.5 items-center justify-center rounded-full bg-white ring-1 ring-[#CFE6D4]">
+          <ChevronDown
+            size={9}
+            aria-hidden="true"
+            className={`text-[#2C6E49] transition ${open ? 'rotate-180' : ''}`}
+          />
         </span>
-        <span className="hidden max-w-[80px] truncate text-xs font-semibold xl:inline">{name.split(' ')[0]}</span>
-        <ChevronDown
-          size={14}
-          aria-hidden="true"
-          className={`hidden text-[#7A8C7E] transition xl:block ${open ? 'rotate-180' : ''}`}
-        />
       </button>
 
       {open && (
@@ -132,7 +133,28 @@ function ProfileMenu() {
   );
 }
 
-function HubSelect({ value, onChange, className = '' }) {
+function HubSelect({ value, onChange, className = '', variant = 'pill' }) {
+  if (variant === 'strip') {
+    return (
+      <label className={`inline-flex items-center gap-1.5 text-[11px] font-medium text-white/80 ${className}`}>
+        <MapPin size={12} className="shrink-0 text-[#98E59E]" aria-hidden="true" />
+        <span>Delivering to</span>
+        <select
+          value={value}
+          onChange={onChange}
+          aria-label="Delivery hub"
+          className="cursor-pointer rounded bg-transparent font-bold text-[#98E59E] focus:outline-none focus-visible:ring-1 focus-visible:ring-[#98E59E]"
+        >
+          {LOCALITIES.map((loc) => (
+            <option key={loc} value={loc} className="text-[#152A1B]">
+              {loc}
+            </option>
+          ))}
+        </select>
+      </label>
+    );
+  }
+
   return (
     <label
       className={`flex h-10 items-center gap-1.5 rounded-full bg-[#EAF5EC] px-3 text-xs font-semibold text-[#153B2B] transition focus-within:ring-2 focus-within:ring-[#2C6E49] ${className}`}
@@ -203,6 +225,9 @@ export default function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
 
+  // Cart total (uses whichever total field your store exposes)
+  const amount = [totals.total, totals.grandTotal, totals.subtotal].find((n) => typeof n === 'number');
+
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 8);
     onScroll();
@@ -236,23 +261,31 @@ export default function Header() {
 
   return (
     <>
-      <div className="bg-[#0F2D20] px-4 py-1.5 text-center text-[11px] font-medium text-white/85">
-        <span className="inline-flex items-center gap-2">
-          <span className="relative flex h-1.5 w-1.5">
-            <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[#98E59E] opacity-70" />
-            <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-[#98E59E]" />
+      <div className="bg-[#0F2D20] px-4 py-1.5 text-[11px] font-medium text-white/85">
+        <div className="mx-auto flex max-w-[100rem] items-center justify-center md:grid md:grid-cols-3">
+          <p className="hidden text-left text-white/70 md:block">
+            Free delivery above <span className="font-bold text-[#98E59E]">₹{FREE_SHIPPING_THRESHOLD}</span>
+          </p>
+          <span className="inline-flex items-center justify-center gap-2 text-center">
+            <span className="relative flex h-1.5 w-1.5">
+              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[#98E59E] opacity-70" />
+              <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-[#98E59E]" />
+            </span>
+            5:00 AM Harvest <span className="text-white/30">•</span> 6:30–9:00 AM Delivery
           </span>
-          5:00 AM Harvest <span className="text-white/30">•</span> 6:30–9:00 AM Delivery
-        </span>
+          <div className="hidden justify-end md:flex">
+            <HubSelect variant="strip" value={selectedLocality} onChange={(e) => changeLocality(e.target.value)} />
+          </div>
+        </div>
       </div>
 
       <header className="pointer-events-none sticky top-0 z-40 px-3 pt-3 sm:px-6">
-        <div className="relative mx-auto max-w-7xl">
+        <div className="relative mx-auto max-w-[100rem]">
           <div
-            className={`pointer-events-auto grid grid-cols-[auto_1fr_auto] items-center gap-2 rounded-full border border-[#E2EAE4] bg-white/85 px-2.5 backdrop-blur-xl transition-all duration-300 sm:px-3 xl:grid-cols-[1fr_auto_1fr] ${
+            className={`pointer-events-auto relative grid grid-cols-[auto_1fr_auto] items-center gap-2 rounded-full border border-[#E2EAE4] bg-white/90 px-2.5 backdrop-blur-2xl transition-all duration-300 sm:px-3 min-[1500px]:flex min-[1500px]:justify-between ${
               scrolled
-                ? 'h-14 shadow-[0_12px_32px_-12px_rgba(21,59,43,0.35)]'
-                : 'h-16 shadow-[0_4px_16px_-8px_rgba(21,59,43,0.2)]'
+                ? 'h-16 shadow-[0_12px_32px_-12px_rgba(21,59,43,0.35)]'
+                : 'h-[72px] shadow-[0_4px_16px_-8px_rgba(21,59,43,0.2)]'
             }`}
           >
             {/* Left: menu button / tabs */}
@@ -265,14 +298,14 @@ export default function Header() {
                 }}
                 aria-label={menuOpen ? 'Close menu' : 'Open menu'}
                 aria-expanded={menuOpen}
-                className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full text-[#153B2B] transition hover:bg-[#F1F6F2] xl:hidden"
+                className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full text-[#153B2B] transition hover:bg-[#F1F6F2] min-[1500px]:hidden"
               >
                 {menuOpen ? <X size={20} aria-hidden="true" /> : <Menu size={20} aria-hidden="true" />}
               </button>
 
               <nav
                 aria-label="Main"
-                className="hidden items-center gap-1 rounded-full bg-[#F1F6F2] p-1 xl:flex"
+                className="hidden items-center gap-1 rounded-full bg-[#F1F6F2] p-1 min-[1500px]:flex"
               >
                 {TABS.map((tab) => {
                   const active = activeTab === tab.id;
@@ -282,13 +315,20 @@ export default function Header() {
                       type="button"
                       onClick={() => setActiveTab(tab.id)}
                       aria-current={active ? 'page' : undefined}
-                      className={`whitespace-nowrap rounded-full px-3.5 py-1.5 text-[13px] font-semibold transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#2C6E49] ${
+                      className={`whitespace-nowrap rounded-full px-3 py-1.5 text-[13px] font-semibold transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#2C6E49] ${
                         active
                           ? 'bg-[#153B2B] text-white shadow-sm'
                           : 'text-[#4B5F50] hover:bg-white hover:text-[#153B2B]'
                       }`}
                     >
-                      {tab.label}
+                      {tab.id === 'home' ? (
+                        <span className="inline-flex items-center gap-1.5">
+                          <Home size={14} aria-hidden="true" />
+                          {tab.label}
+                        </span>
+                      ) : (
+                        tab.label
+                      )}
                     </button>
                   );
                 })}
@@ -298,20 +338,20 @@ export default function Header() {
             {/* Center: logo + name */}
             <button
               type="button"
-              onClick={() => goTab('shop')}
-              aria-label="Sideshwara Greens home"
-              className="flex select-none items-center justify-center gap-2 justify-self-center rounded-full py-1 pl-1 pr-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#2C6E49]"
+              onClick={() => goTab('home')}
+              aria-label="Verdant Greens home"
+              className="flex min-w-0 select-none items-center justify-center gap-1.5 justify-self-center sm:gap-2 rounded-full py-1 pl-1 pr-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#2C6E49] min-[1500px]:absolute min-[1500px]:left-1/2 min-[1500px]:-translate-x-1/2"
             >
-              <span className="flex h-9 w-9 shrink-0 items-center justify-center overflow-hidden rounded-full bg-[#153B2B] p-1.5 text-[#98E59E]">
+              <span className="flex h-9 w-9 shrink-0 items-center justify-center overflow-hidden rounded-full bg-[#153B2B] p-1.5 sm:h-12 sm:w-12 min-[1500px]:h-11 min-[1500px]:w-11 min-[1700px]:h-12 min-[1700px]:w-12 text-[#98E59E]">
                 <img src={logo} alt="" className="h-full w-full object-contain" />
               </span>
-              <span className="whitespace-nowrap font-serif text-base font-bold tracking-tight text-[#152A1B] sm:text-xl">
+              <span className="whitespace-nowrap font-serif text-base font-bold tracking-tight text-[#152A1B] sm:text-2xl min-[1500px]:text-xl min-[1700px]:text-2xl min-[1900px]:text-3xl">
                 Verdant<span className="text-[#2C6E49]">Greens</span>
               </span>
             </button>
 
-            {/* Right: search, hub, orders, cart, profile */}
-            <div className="flex items-center justify-end gap-1.5 sm:gap-2">
+            {/* Right: search, cart, profile */}
+            <div className="flex items-center justify-end gap-1 sm:gap-2">
               <button
                 type="button"
                 onClick={() => {
@@ -320,41 +360,24 @@ export default function Header() {
                 }}
                 aria-label="Toggle search"
                 aria-expanded={searchOpen}
-                className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full text-[#153B2B] transition hover:bg-[#F1F6F2]"
+                className="hidden h-9 w-9 shrink-0 items-center justify-center rounded-full text-[#153B2B] transition hover:bg-[#F1F6F2] sm:flex"
               >
-                {searchOpen ? <X size={19} aria-hidden="true" /> : <Search size={19} aria-hidden="true" />}
+                {searchOpen ? <X size={18} aria-hidden="true" /> : <Search size={18} aria-hidden="true" />}
               </button>
 
-              <HubSelect
-                value={selectedLocality}
-                onChange={(e) => changeLocality(e.target.value)}
-                className="hidden xl:flex"
-              />
-
-              <button
-                type="button"
-                onClick={() => setActiveTab('orders')}
-                aria-label={`Orders (${orders.orders.length})`}
-                className={`hidden h-10 items-center gap-1.5 rounded-full px-3 text-xs font-semibold transition xl:flex ${
-                  activeTab === 'orders'
-                    ? 'bg-[#EAF5EC] text-[#153B2B]'
-                    : 'text-[#3F5445] hover:bg-[#F1F6F2] hover:text-[#153B2B]'
-                }`}
-              >
-                <Package size={17} className="text-[#2C6E49]" aria-hidden="true" />
-                <span className="rounded-full bg-[#EAF5EC] px-1.5 py-0.5 text-[10px] font-bold text-[#2C6E49]">
-                  {orders.orders.length}
-                </span>
-              </button>
-
-              {/* Cart Button resized to h-8 w-8 matching the user avatar circle */}
+              {/* Cart: same 36px circle as search and avatar; shows the total on desktop */}
               <button
                 type="button"
                 onClick={() => setIsCartOpen(true)}
                 aria-label={`Open cart${totals.count > 0 ? `, ${totals.count} items` : ''}`}
-                className="relative flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[#153B2B] text-white transition hover:bg-[#0E291D] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#2C6E49]"
+                className={`relative flex h-8 shrink-0 items-center justify-center gap-2 rounded-full bg-[#153B2B] sm:h-9 text-white transition hover:bg-[#0E291D] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#2C6E49] ${
+                  amount > 0 ? 'w-8 sm:w-9 min-[1500px]:w-auto min-[1500px]:px-3.5' : 'w-8 sm:w-9'
+                }`}
               >
-                <ShoppingBag size={15} className="text-[#98E59E]" aria-hidden="true" />
+                <ShoppingBag size={16} className="text-[#98E59E]" aria-hidden="true" />
+                {amount > 0 && (
+                  <span className="hidden text-xs font-bold min-[1500px]:inline">₹{Math.round(amount)}</span>
+                )}
                 {totals.count > 0 && (
                   <span className="absolute -right-1 -top-1 flex h-4 min-w-[16px] items-center justify-center rounded-full bg-[#98E59E] px-1 text-[9px] font-bold text-[#0F2D20] ring-2 ring-white">
                     {totals.count}
@@ -377,8 +400,14 @@ export default function Header() {
           {menuOpen && (
             <nav
               aria-label="Mobile"
-              className="pointer-events-auto absolute inset-x-0 top-full mt-2 rounded-3xl border border-[#E2EAE4] bg-white p-3 shadow-[0_24px_60px_-16px_rgba(21,59,43,0.35)] xl:hidden"
+              className="pointer-events-auto absolute inset-x-0 top-full mt-2 rounded-3xl border border-[#E2EAE4] bg-white p-3 shadow-[0_24px_60px_-16px_rgba(21,59,43,0.35)] min-[1500px]:hidden"
             >
+              <SearchField
+                className="mb-3 sm:hidden"
+                value={searchQuery}
+                onChange={handleSearch}
+                onClear={clearSearch}
+              />
               <ul className="space-y-1">
                 {TABS.map((tab) => {
                   const active = activeTab === tab.id;
