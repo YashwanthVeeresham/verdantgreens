@@ -175,26 +175,24 @@ export default function AboutUs() {
 
   return (
     <div className="space-y-20 pb-16">
-      {/* Hero */}
-      <section className="relative overflow-hidden bg-[#0F2D20] text-white rounded-3xl mx-4 sm:mx-6 lg:mx-8 shadow-xl mt-4">
-        <div
-          aria-hidden="true"
-          className="pointer-events-none absolute -right-24 -top-24 h-96 w-96 rounded-full bg-[#2C6E49]/40 blur-3xl"
-        />
-        <div
-          aria-hidden="true"
-          className="pointer-events-none absolute -bottom-32 -left-16 h-80 w-80 rounded-full bg-[#98E59E]/10 blur-3xl"
-        />
-        <div className="relative mx-auto grid max-w-7xl items-center gap-12 px-4 py-16 sm:px-6 sm:py-24 lg:grid-cols-2 lg:px-8">
+      {/* Hero section matching exact HeroBanner width & styling reference */}
+      <section className="relative overflow-hidden rounded-[2rem] bg-gradient-to-br from-[#133A29] via-[#1F5A3E] to-[#4A9173] px-6 pb-8 pt-8 text-white shadow-[0_30px_70px_-30px_rgba(15,45,32,0.8)] sm:px-12 sm:pt-10 border border-white/10">
+        {/* Background atmosphere */}
+        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_50%_35%,rgba(255,255,255,0.18),transparent_60%)]" />
+        <div className="pointer-events-none absolute inset-0 opacity-40 [background-image:radial-gradient(rgba(255,255,255,0.18)_1px,transparent_1px)] [background-size:22px_22px] [mask-image:linear-gradient(to_bottom,black,transparent_80%)]" />
+        <div className="pointer-events-none absolute -left-24 -top-24 h-80 w-80 rounded-full bg-[#98E59E]/25 blur-3xl" />
+        <div className="pointer-events-none absolute -bottom-32 -right-20 h-96 w-96 rounded-full bg-[#CDEFD2]/20 blur-3xl" />
+
+        <div className="relative z-10 mx-auto grid max-w-7xl items-center gap-12 py-2 lg:grid-cols-2">
           <div className="max-w-3xl space-y-6">
-            <div className="inline-flex items-center gap-1.5 rounded-full bg-white/10 px-3 py-1 text-xs font-bold uppercase tracking-wider text-[#98E59E] ring-1 ring-white/15">
+            <div className="inline-flex items-center gap-1.5 rounded-full border border-white/25 bg-white/15 px-3.5 py-1.5 text-[10px] font-bold uppercase tracking-widest text-[#D8F8DC] backdrop-blur-md">
               <Leaf size={14} aria-hidden="true" />
               <span>Rooted in Hyderabad</span>
             </div>
-            <h1 className="font-serif text-4xl font-bold leading-tight sm:text-6xl">
-              Living nutrition, <span className="text-[#98E59E]">harvested at dawn.</span>
+            <h1 className="font-serif text-4xl font-bold leading-tight sm:text-6xl text-[#B8F5B1]">
+              Living nutrition, <span className="text-white">harvested at dawn.</span>
             </h1>
-            <p className="max-w-2xl text-sm leading-relaxed text-white/75 sm:text-lg">
+            <p className="max-w-2xl text-sm leading-relaxed text-[#ECF8F0] sm:text-lg">
               Sideshwara Greens is Hyderabad&rsquo;s farm-direct source for microgreens, living sprouts and
               ready-to-eat sprout bowls, grown in a controlled urban greenhouse and delivered to your door
               every morning.
@@ -211,7 +209,7 @@ export default function AboutUs() {
               <button
                 type="button"
                 onClick={() => setActiveTab('farm')}
-                className="inline-flex items-center gap-2 rounded-full border border-white/25 px-6 py-3 text-sm font-semibold text-white transition hover:bg-white/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white"
+                className="inline-flex items-center gap-2 rounded-full border border-white/30 bg-white/10 px-6 py-3 text-sm font-semibold text-white backdrop-blur-md transition hover:bg-white/20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white"
               >
                 See how we grow
               </button>
@@ -242,12 +240,12 @@ export default function AboutUs() {
         </div>
 
         {/* Stats */}
-        <div className="relative border-t border-white/10">
-          <dl className="mx-auto grid max-w-7xl grid-cols-2 gap-y-6 px-4 py-8 sm:px-6 lg:grid-cols-4 lg:px-8">
+        <div className="relative z-10 mt-8 border-t border-white/15 pt-6">
+          <dl className="mx-auto grid max-w-7xl grid-cols-2 gap-y-6 sm:grid-cols-4">
             {STATS.map((s) => (
               <div key={s.label} className="text-center lg:text-left">
                 <dt className="font-serif text-3xl font-bold text-white sm:text-4xl">{s.value}</dt>
-                <dd className="mt-1 text-xs uppercase tracking-wider text-white/60">{s.label}</dd>
+                <dd className="mt-1 text-xs uppercase tracking-wider text-white/65">{s.label}</dd>
               </div>
             ))}
           </dl>

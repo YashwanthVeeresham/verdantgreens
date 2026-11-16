@@ -50,25 +50,25 @@ function sproutLine(color) {
   );
 }
 
-// Seedlings scattered across the whole page, centre included (left %, top %, size px, rotation, opacity, style)
+// Seedlings scattered across the whole page, adjusted for screen responsiveness
 const SCATTER = [
-  { l: 3, t: 22, s: 90, r: -12, o: 0.28, v: 'fill', c: 'url(#vg-grad-a)' },
-  { l: 10, t: 55, s: 130, r: 14, o: 0.3, v: 'line', c: '#2C6E49' },
-  { l: 6, t: 82, s: 70, r: -20, o: 0.3, v: 'fill', c: 'url(#vg-grad-b)' },
-  { l: 22, t: 12, s: 60, r: 18, o: 0.3, v: 'line', c: '#4CAF63' },
-  { l: 24, t: 70, s: 110, r: -8, o: 0.25, v: 'fill', c: 'url(#vg-grad-a)' },
-  { l: 38, t: 30, s: 150, r: 10, o: 0.22, v: 'line', c: '#2C6E49' },
-  { l: 44, t: 62, s: 80, r: -16, o: 0.28, v: 'fill', c: 'url(#vg-grad-b)' },
-  { l: 48, t: 88, s: 120, r: 6, o: 0.22, v: 'fill', c: 'url(#vg-grad-a)' },
-  { l: 56, t: 14, s: 100, r: -10, o: 0.25, v: 'fill', c: 'url(#vg-grad-b)' },
-  { l: 62, t: 46, s: 140, r: 16, o: 0.2, v: 'line', c: '#4CAF63' },
-  { l: 72, t: 72, s: 90, r: -14, o: 0.28, v: 'line', c: '#2C6E49' },
-  { l: 78, t: 28, s: 110, r: 8, o: 0.25, v: 'fill', c: 'url(#vg-grad-a)' },
-  { l: 90, t: 52, s: 120, r: -18, o: 0.28, v: 'fill', c: 'url(#vg-grad-b)' },
-  { l: 93, t: 84, s: 80, r: 12, o: 0.3, v: 'line', c: '#2C6E49' }
+  { l: 2, t: 15, s: 75, r: -12, o: 0.25, v: 'fill', c: 'url(#vg-grad-a)' },
+  { l: 8, t: 45, s: 110, r: 14, o: 0.28, v: 'line', c: '#2C6E49' },
+  { l: 5, t: 78, s: 65, r: -20, o: 0.25, v: 'fill', c: 'url(#vg-grad-b)' },
+  { l: 18, t: 10, s: 55, r: 18, o: 0.25, v: 'line', c: '#4CAF63' },
+  { l: 20, t: 65, s: 95, r: -8, o: 0.22, v: 'fill', c: 'url(#vg-grad-a)' },
+  { l: 35, t: 25, s: 130, r: 10, o: 0.2, v: 'line', c: '#2C6E49' },
+  { l: 40, t: 58, s: 70, r: -16, o: 0.25, v: 'fill', c: 'url(#vg-grad-b)' },
+  { l: 45, t: 85, s: 100, r: 6, o: 0.2, v: 'fill', c: 'url(#vg-grad-a)' },
+  { l: 55, t: 12, s: 85, r: -10, o: 0.22, v: 'fill', c: 'url(#vg-grad-b)' },
+  { l: 60, t: 42, s: 120, r: 16, o: 0.18, v: 'line', c: '#4CAF63' },
+  { l: 70, t: 68, s: 80, r: -14, o: 0.25, v: 'line', c: '#2C6E49' },
+  { l: 75, t: 22, s: 95, r: 8, o: 0.22, v: 'fill', c: 'url(#vg-grad-a)' },
+  { l: 88, t: 48, s: 100, r: -18, o: 0.25, v: 'fill', c: 'url(#vg-grad-b)' },
+  { l: 92, t: 80, s: 70, r: 12, o: 0.25, v: 'line', c: '#2C6E49' }
 ];
 
-// Falling microgreen seedlings (left %, size px, fall seconds, delay s, sway px, opacity, colour)
+// Falling microgreen seedlings
 const FALLING_LEAVES = [
   { left: 4, size: 28, dur: 22, delay: 0, dx: 40, op: 0.55, color: '#2C6E49' },
   { left: 12, size: 20, dur: 28, delay: -9, dx: 30, op: 0.45, color: '#4CAF63' },
@@ -82,7 +82,7 @@ const FALLING_LEAVES = [
   { left: 94, size: 20, dur: 31, delay: -11, dx: 30, op: 0.45, color: '#4CAF63' }
 ];
 
-// Microgreen seedling beds for the corners (x, y, rotation, scale, colour) in a 320x320 box
+// Microgreen seedling beds for the corners
 const FOLIAGE = [
   { x: 292, y: 40, r: 200, s: 4.6, c: '#2C6E49' },
   { x: 250, y: 24, r: 170, s: 3.6, c: '#4CAF63' },
@@ -126,10 +126,8 @@ function AppShell() {
   const { activeTab, apiError } = useStore();
   const Page = PAGES[activeTab] || ShopPage;
 
-  // Home shows the page from the top; Shop jumps to the products section (id="products")
   const firstRender = useRef(true);
   useEffect(() => {
-    // On first load always start at the top so the hero banner is visible
     if (firstRender.current) {
       firstRender.current = false;
       return undefined;
@@ -185,7 +183,7 @@ function AppShell() {
           </defs>
         </svg>
 
-        {/* Seedlings scattered across the page, including the middle */}
+        {/* Seedlings scattered across the page */}
         {SCATTER.map((m, i) => (
           <svg
             key={i}
