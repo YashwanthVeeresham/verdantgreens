@@ -148,21 +148,26 @@ function AppShell() {
       {/* Page background: mint gradient, glows, dot grid, microgreen seedlings and falling sprouts */}
       <div
         aria-hidden="true"
-        className="pointer-events-none fixed inset-0 -z-10 overflow-hidden bg-gradient-to-b from-[#F4FAF5] via-[#EEF6F0] to-[#F8FBF8]"
+        className="vg-bg pointer-events-none fixed inset-0 -z-10 overflow-hidden bg-gradient-to-b from-[#F4FAF5] via-[#EEF6F0] to-[#F8FBF8]"
       >
-        <div className="absolute -left-40 -top-40 h-[34rem] w-[34rem] rounded-full bg-[#98E59E]/30 blur-3xl" />
-        <div className="absolute -right-32 top-1/4 h-[30rem] w-[30rem] rounded-full bg-[#2C6E49]/15 blur-3xl" />
-        <div className="absolute -bottom-40 left-1/4 h-[32rem] w-[32rem] rounded-full bg-[#CDEFD2]/50 blur-3xl" />
+        <div className="absolute rounded-full bg-[#98E59E]/30 blur-3xl" style={{ left: '-14vmin', top: '-14vmin', width: 'clamp(260px, 60vmin, 620px)', height: 'clamp(260px, 60vmin, 620px)' }} />
+        <div className="absolute rounded-full bg-[#2C6E49]/15 blur-3xl" style={{ right: '-12vmin', top: '25%', width: 'clamp(220px, 52vmin, 540px)', height: 'clamp(220px, 52vmin, 540px)' }} />
+        <div className="absolute rounded-full bg-[#CDEFD2]/50 blur-3xl" style={{ bottom: '-14vmin', left: '25%', width: 'clamp(240px, 56vmin, 580px)', height: 'clamp(240px, 56vmin, 580px)' }} />
         <div className="absolute inset-0 opacity-60 [background-image:radial-gradient(rgba(21,59,43,0.10)_1px,transparent_1px)] [background-size:24px_24px] [mask-image:linear-gradient(to_bottom,black,transparent_85%)]" />
 
         {/* Microgreen seedling beds: top-right and bottom-left corners */}
         {[
-          'right-[-60px] top-[-40px] h-[260px] w-[260px] sm:right-0 sm:top-0 sm:h-[340px] sm:w-[340px] lg:h-[420px] lg:w-[420px]',
-          'bottom-[-60px] left-[-60px] h-[240px] w-[240px] rotate-180 sm:bottom-0 sm:left-0 sm:h-[320px] sm:w-[320px] lg:h-[400px] lg:w-[400px]'
-        ].map((pos) => (
-          <svg key={pos} viewBox="0 0 320 320" className={`vg-sway absolute opacity-40 ${pos}`}>
-            {FOLIAGE.map((l, i) => (
-              <g key={i} transform={`translate(${l.x} ${l.y}) rotate(${l.r}) scale(${l.s}) translate(-12 -12)`}>
+          { pos: { right: '-5vmin', top: '-4vmin' }, size: 'clamp(170px, 46vmin, 440px)', flip: false },
+          { pos: { left: '-5vmin', bottom: '-4vmin' }, size: 'clamp(160px, 42vmin, 400px)', flip: true }
+        ].map((c, i) => (
+          <svg
+            key={i}
+            viewBox="0 0 320 320"
+            className="vg-sway absolute opacity-40"
+            style={{ ...c.pos, width: c.size, height: c.size, rotate: c.flip ? '180deg' : undefined }}
+          >
+            {FOLIAGE.map((l, j) => (
+              <g key={j} transform={`translate(${l.x} ${l.y}) rotate(${l.r}) scale(${l.s}) translate(-12 -12)`}>
                 {sprout(l.c)}
               </g>
             ))}
@@ -188,10 +193,9 @@ function AppShell() {
           <svg
             key={i}
             viewBox="0 0 24 24"
-            width={m.s}
-            height={m.s}
-            className="vg-sway absolute"
+            className={`vg-scatter vg-sway absolute ${i % 2 ? 'hidden sm:block' : ''} ${i % 3 === 0 ? 'vg-thin' : ''}`}
             style={{
+              '--s': m.s,
               left: `${m.l}%`,
               top: `${m.t}%`,
               opacity: m.o,
@@ -209,10 +213,9 @@ function AppShell() {
           <svg
             key={i}
             viewBox="0 0 24 24"
-            width={leaf.size}
-            height={leaf.size}
-            className="vg-leaf absolute top-0"
+            className={`vg-fall vg-leaf absolute top-0 ${i % 2 ? 'hidden sm:block' : ''}`}
             style={{
+              '--s': leaf.size,
               left: `${leaf.left}%`,
               opacity: leaf.op,
               '--dx': `${leaf.dx}px`,
@@ -226,6 +229,11 @@ function AppShell() {
 
         <style>{`
           #products { scroll-margin-top: 110px; }
+          /* Sizes follow the smaller screen side (reference 1440x900), so every screen looks like the same picture */
+          .vg-scatter { width: clamp(calc(var(--s) * 0.4px), calc(var(--s) * 0.111vmin), calc(var(--s) * 1.15px)); height: clamp(calc(var(--s) * 0.4px), calc(var(--s) * 0.111vmin), calc(var(--s) * 1.15px)); }
+          .vg-fall { width: clamp(calc(var(--s) * 0.6px), calc(var(--s) * 0.111vmin), calc(var(--s) * 1.15px)); height: clamp(calc(var(--s) * 0.6px), calc(var(--s) * 0.111vmin), calc(var(--s) * 1.15px)); }
+          /* Fewer seedlings on short screens (small laptops, landscape phones) */
+          @media (max-height: 700px) { .vg-thin { display: none; } }
           @keyframes vg-leaf-fall {
             0%   { transform: translate3d(0, -12vh, 0) rotate(0deg); }
             25%  { transform: translate3d(var(--dx), 28vh, 0) rotate(90deg); }
